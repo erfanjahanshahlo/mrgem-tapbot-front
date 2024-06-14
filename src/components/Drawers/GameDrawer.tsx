@@ -8,6 +8,8 @@ import {
   DrawerTrigger,
 } from "../ui";
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
+import { ChevronRight } from "lucide-react";
+import { cn } from "@/utils";
 
 type Props = {};
 
@@ -34,19 +36,21 @@ const GameDrawer = ({}: Props) => {
           <DrawerTitle className="text-2xl font-semibold capitalize">
             Select your game
           </DrawerTitle>
-          <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <div className="w-full space-y-2 px-2 overflow-hidden overflow-y-scroll pb-5">
           {Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
               onClick={() => setIsDialogOpen(false)}
-              className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-3xl rounded-2xl">
+              className={cn(
+                "flex justify-between items-center p-4 bg-black-60 backdrop-blur-3xl rounded-2xl",
+                i === 0 ? "bg-secondary-100" : ""
+              )}>
               <div className="flex gap-2 items-center">
                 <img src={ClashOfClansLogo} className="size-10 rounded-md" />
                 <div className="text-lg font-semibold">Clash of clans</div>
               </div>
-              <button className="btn btn-primary">Play</button>
+              <ChevronRight className="text-lg" />
             </div>
           ))}
         </div>
