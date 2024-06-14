@@ -38,6 +38,7 @@ module.exports = {
         30: "#919398",
         20: "#B6B7BA",
         10: "#D5D6D9",
+        DEFAULT: "#000",
       },
       red: {
         100: "#FF204B",

@@ -31,7 +31,7 @@ const GameDrawer = ({}: Props) => {
           <img src={ClashOfClansLogo} className="size-10 rounded-md" />
         </div>
       </DrawerTrigger>
-      <DrawerContent className="max-h-svh  h-full  !outline-none pb-20">
+      <DrawerContent className="  h-full  !outline-none pb-20">
         <DrawerHeader>
           <DrawerTitle className="text-2xl font-semibold capitalize">
             Select your game
@@ -46,8 +46,10 @@ const GameDrawer = ({}: Props) => {
                 // setIsDialogOpen(false);
               }}
               className={cn(
-                "flex justify-between items-center p-4 bg-black-60 backdrop-blur-3xl rounded-2xl transition-colors duration-500",
-                i === selectedGameIndex ? "bg-secondary-100" : ""
+                "flex justify-between items-center p-4 bg-black-70 backdrop-blur-3xl rounded-2xl transition-colors duration-500",
+                i === selectedGameIndex
+                  ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
+                  : ""
               )}>
               <div className="flex gap-2 items-center">
                 <img src={ClashOfClansLogo} className="size-10 rounded-md" />

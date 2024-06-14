@@ -1,11 +1,11 @@
 type Props = {
-  className: string;
+  className?: string;
 };
 
 const FingerTapIcon = ({ className }: Props) => {
   return (
     <svg
-      fill="#000000"
+      fill="#ffffff"
       className={className}
       height="117px"
       width="117px"
@@ -15,7 +15,7 @@ const FingerTapIcon = ({ className }: Props) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="-51.2 -51.2 614.40 614.40"
       xmlSpace="preserve"
-      stroke="#000000"
+      stroke="#ffffff"
       stroke-width="13.312000000000001"
       transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
       <g id="SVGRepo_bgCarrier" stroke-width="0" />
