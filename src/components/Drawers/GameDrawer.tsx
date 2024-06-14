@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -16,6 +15,7 @@ type Props = {};
 const GameDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
+  const [selectedGameIndex, setSelectedGameIndex] = useState<number>(0);
   return (
     <Drawer
       open={isDialogOpen}
@@ -41,10 +41,13 @@ const GameDrawer = ({}: Props) => {
           {Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
-              onClick={() => setIsDialogOpen(false)}
+              onClick={() => {
+                setSelectedGameIndex(i);
+                // setIsDialogOpen(false);
+              }}
               className={cn(
-                "flex justify-between items-center p-4 bg-black-60 backdrop-blur-3xl rounded-2xl",
-                i === 0 ? "bg-secondary-100" : ""
+                "flex justify-between items-center p-4 bg-black-60 backdrop-blur-3xl rounded-2xl transition-colors duration-500",
+                i === selectedGameIndex ? "bg-secondary-100" : ""
               )}>
               <div className="flex gap-2 items-center">
                 <img src={ClashOfClansLogo} className="size-10 rounded-md" />
