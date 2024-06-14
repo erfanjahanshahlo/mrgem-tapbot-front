@@ -1,0 +1,3 @@
+export {
+    MinePage
+} from "./MinePage"

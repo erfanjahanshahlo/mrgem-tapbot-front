@@ -16,15 +16,33 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
+const WheelLazyImport = createFileRoute('/wheel')()
+const TasksLazyImport = createFileRoute('/tasks')()
+const ShopLazyImport = createFileRoute('/shop')()
+const FriendsLazyImport = createFileRoute('/friends')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  path: '/about',
+const WheelLazyRoute = WheelLazyImport.update({
+  path: '/wheel',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/wheel.lazy').then((d) => d.Route))
+
+const TasksLazyRoute = TasksLazyImport.update({
+  path: '/tasks',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/tasks.lazy').then((d) => d.Route))
+
+const ShopLazyRoute = ShopLazyImport.update({
+  path: '/shop',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/shop.lazy').then((d) => d.Route))
+
+const FriendsLazyRoute = FriendsLazyImport.update({
+  path: '/friends',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/friends.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -42,11 +60,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/friends': {
+      id: '/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof FriendsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/wheel': {
+      id: '/wheel'
+      path: '/wheel'
+      fullPath: '/wheel'
+      preLoaderRoute: typeof WheelLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -56,7 +95,10 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
-  AboutLazyRoute,
+  FriendsLazyRoute,
+  ShopLazyRoute,
+  TasksLazyRoute,
+  WheelLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -68,14 +110,26 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/friends",
+        "/shop",
+        "/tasks",
+        "/wheel"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/friends": {
+      "filePath": "friends.lazy.tsx"
+    },
+    "/shop": {
+      "filePath": "shop.lazy.tsx"
+    },
+    "/tasks": {
+      "filePath": "tasks.lazy.tsx"
+    },
+    "/wheel": {
+      "filePath": "wheel.lazy.tsx"
     }
   }
 }
