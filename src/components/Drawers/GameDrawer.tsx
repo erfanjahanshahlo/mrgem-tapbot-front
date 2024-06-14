@@ -41,7 +41,7 @@ const GameDrawer = ({}: Props) => {
             <div
               key={i}
               onClick={() => setIsDialogOpen(false)}
-              className="flex justify-between items-center p-4 bg-black-100 rounded-md">
+              className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-3xl rounded-2xl">
               <div className="flex gap-2 items-center">
                 <img src={ClashOfClansLogo} className="size-10 rounded-md" />
                 <div className="text-lg font-semibold">Clash of clans</div>
