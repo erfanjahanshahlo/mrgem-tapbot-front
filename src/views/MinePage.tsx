@@ -28,7 +28,7 @@ const MinePage = ({}: Props) => {
         </div>
         <Progress value={60} />
       </div>
-      <div className="w-11/12 aspect-square rounded-full mx-auto mt-10 p-6 border-2 border-white">
+      <div className="w-10/12 aspect-square rounded-full  absolute top-1/2 translate-y-[calc(-50%+50px)] left-1/2 -translate-x-1/2 p-6 border-2 border-white">
         <img
           src={Mrgemcharacter}
           alt=""
