@@ -9,7 +9,8 @@ export const Route = createRootRoute({
       <Layout>
         <Outlet />
       </Layout>
-      {/* <TanStackRouterDevtools /> Remove this line in production */}
+      {/* Remove this line in production */}
+      <TanStackRouterDevtools />
       <BottomMenu />
     </>
   ),
