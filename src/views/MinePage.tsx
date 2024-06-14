@@ -1,4 +1,4 @@
-import { Coin, LevelCard, MineDetail } from "@/components";
+import { LevelCard } from "@/components";
 import { Mine } from "@/features";
 type Props = {};
 
