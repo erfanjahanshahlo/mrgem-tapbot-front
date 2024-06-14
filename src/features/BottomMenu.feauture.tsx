@@ -1,17 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import {
-  ListChecks,
-  LoaderPinwheel,
-  Pickaxe,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
+import { Profile2User, ShoppingCart, Task } from "iconsax-react";
+import { LoaderPinwheel, Pickaxe } from "lucide-react";
 
 type Props = {};
 
 const BottomMenu = ({}: Props) => {
   return (
-    <div className="w-11/12 h-[70px] bg-black-100/90 max-w-md fixed bottom-4  rounded-full flex justify-between px-6 py-2 items-center gap-4 left-1/2 -translate-x-1/2 backdrop-blur-md">
+    <div className="w-11/12 h-[70px] bg-white/10  max-w-md fixed bottom-4 rounded-xl  flex justify-between px-6 py-2 items-center gap-4 left-1/2 -translate-x-1/2 backdrop-blur-3xl">
       <Link
         to="/"
         className="flex justify-between items-center flex-col  h-full text-opacity-60 text-white [&.active]:text-opacity-100">
@@ -21,7 +16,7 @@ const BottomMenu = ({}: Props) => {
       <Link
         to="/tasks"
         className="flex justify-between items-center flex-col  h-full text-opacity-60 text-white [&.active]:text-opacity-100">
-        <ListChecks />
+        <Task variant="Outline" />
         Task
       </Link>
       <Link
@@ -33,13 +28,13 @@ const BottomMenu = ({}: Props) => {
       <Link
         to="/friends"
         className="flex justify-between items-center flex-col  h-full text-opacity-60 text-white [&.active]:text-opacity-100">
-        <Users />
+        <Profile2User variant="Outline" />
         Friends
       </Link>
       <Link
         to="/shop"
         className="flex justify-between items-center flex-col  h-full text-opacity-60 text-white [&.active]:text-opacity-100">
-        <ShoppingCart />
+        <ShoppingCart variant="Outline" />
         Shop
       </Link>
     </div>
