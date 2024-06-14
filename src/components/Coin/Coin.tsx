@@ -12,6 +12,7 @@ const Coin = ({}: Props) => {
   const [spans, setSpans] = useState<
     { id: number; text: string; x: number; y: number }[]
   >([]);
+  const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
     setAnimating(true);
@@ -63,7 +64,12 @@ const Coin = ({}: Props) => {
   };
   useEffect(() => {
     if (spans.length === 0) return;
-    setTimeout(() => setSpans([]), 5000);
+    if (isTimeout) return;
+    setIsTimeout(true);
+    setTimeout(() => {
+      setSpans([]);
+      setIsTimeout(false);
+    }, 5000);
   }, [spans]);
   return (
     <motion.div
