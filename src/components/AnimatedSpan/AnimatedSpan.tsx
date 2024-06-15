@@ -13,8 +13,8 @@ export const AnimatedSpan = ({ id, text, x, y }: Props) => {
     const animateSpan = async () => {
       await spanControls.start({
         opacity: 0,
-        y: -20,
-        transition: { duration: 0.5 },
+        y: -80,
+        transition: { duration: 0.8 },
       });
     };
 
