@@ -1,9 +1,12 @@
 import { Copy, Dot, RefreshCcw, UserPlus2 } from "lucide-react";
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
 import { UsdCoin } from "iconsax-react";
+import { useState } from "react";
+import { cn } from "@/utils";
 type Props = {};
 
 const FriendsPage = ({}: Props) => {
+  const [isSpining, setIsSpining] = useState(false);
   return (
     <div className="w-full h-full flex flex-col justify-between items-center gap-5">
       <div className="flex flex-col items-center gap-5">
@@ -51,7 +54,10 @@ const FriendsPage = ({}: Props) => {
         <div className="flex flex-col  gap-4 w-full">
           <div className="flex justify-between items-center">
             <h4 className="col-span-3">List of your friend</h4>
-            <RefreshCcw />
+            <RefreshCcw
+              onClick={() => setIsSpining((prev) => !prev)}
+              className={cn(isSpining ? "animate-spin" : "")}
+            />
           </div>
           <div className="col-span-full bg-white/10 backdrop-blur-3xl py-5 w-full flex justify-center items-center rounded-xl text-white/40">
             You havent invited any friends yet
