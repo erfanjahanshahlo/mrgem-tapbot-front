@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 
 type Props = {};
 
-const WheelPage = (props: Props) => {
+const WheelPage = ({}: Props) => {
   const data = [
     { option: "0" },
     { option: "1" },
