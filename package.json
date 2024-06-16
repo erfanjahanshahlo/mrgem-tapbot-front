@@ -22,6 +22,7 @@
     "iconsax-react": "^0.0.8",
     "lucide-react": "^0.394.0",
     "react": "^18.2.0",
+    "react-custom-roulette": "^1.4.1",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
