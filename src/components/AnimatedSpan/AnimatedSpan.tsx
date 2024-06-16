@@ -27,7 +27,7 @@ export const AnimatedSpan = ({ id, text, x, y }: Props) => {
       initial={{ opacity: 1, y: 0 }}
       animate={spanControls}
       style={{ left: x, top: y }}
-      className="absolute  text-3xl text-secondary-100 font-bold">
+      className="absolute  text-3xl text-secondary-100 font-bold select-none">
       {text}
     </motion.span>
   );
