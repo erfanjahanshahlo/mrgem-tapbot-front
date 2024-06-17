@@ -1,5 +1,10 @@
+import { TaskPage } from "@/views";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/tasks")({
-  component: () => <div>Hello /about!</div>,
+  component: Tasks,
 });
+
+function Tasks() {
+  return <TaskPage />;
+}
