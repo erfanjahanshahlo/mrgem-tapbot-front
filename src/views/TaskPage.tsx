@@ -1,6 +1,4 @@
 import { UsdCoin } from "iconsax-react";
-import ClashOfClansLogo from "/clashOfClansIcon.webp";
-import { ChevronRight } from "lucide-react";
 import { TaskDrawer } from "@/components/Drawers";
 
 type Props = {};

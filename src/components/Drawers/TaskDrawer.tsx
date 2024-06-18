@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Drawer,
@@ -20,7 +19,7 @@ const TaskDrawer = ({}: Props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <div className="flex justify-between items-center p-2  bg-white/10 backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
+        <div className="flex justify-between items-center p-2  bg-[#101622] border border-[#242C3E] backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
           <div className="flex justify-center items-start gap-3">
             <img src={ClashOfClansLogo} className="size-12 rounded-md" />
             <div className="text-sm flex flex-col justify-start items-start ">

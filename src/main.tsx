@@ -4,6 +4,9 @@ import "./index.css";
 import { routeTree } from "./routeTree.gen";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+// import store from "./redux/store";
+
 const queryClient = new QueryClient();
 
 // Create a new router instance
@@ -21,7 +24,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
+        {/* <Provider store={store}> */}
         <RouterProvider router={router} />
+        {/* </Provider> */}
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </StrictMode>

@@ -46,10 +46,8 @@ const LevelsDrawer = ({}: Props) => {
             <div
               key={`levelBox--${i}`}
               className={cn(
-                "w-full  rounded-xl overflow-hidden p-4",
-                i === 1
-                  ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
-                  : "bg-black-70 backdrop-blur-xl"
+                "w-full  rounded-xl overflow-hidden p-4 bg-[#101622] border backdrop-blur-xl",
+                i === 1 ? "border-[#C14DD4]" : " border-[#242C3E] "
               )}>
               <h5 className="w-full  h-fit  text-lg font-semibold">
                 LevelName
