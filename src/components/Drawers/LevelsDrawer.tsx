@@ -1,14 +1,14 @@
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "../ui";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
+import { UsdCoin } from "iconsax-react";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
@@ -22,6 +22,15 @@ const LevelsDrawer = ({}: Props) => {
     "/LevelCharacters/mrgem-iron-character-transparent.webp",
     "/LevelCharacters/mrgem-platinum-character-transparent.webp",
     "/LevelCharacters/mrgem-sliver-character-transparent.webp",
+  ];
+  const levels = [
+    "iron",
+    "bronze",
+    "silver",
+    "gold",
+    "platinum",
+    "diamond",
+    "legendry",
   ];
   return (
     <Drawer
@@ -48,22 +57,32 @@ const LevelsDrawer = ({}: Props) => {
           <Swiper
             slidesPerView={1}
             spaceBetween={0}
+            navigation
             onSlideChange={(slide) => {
               setCurrentSlide(slide.activeIndex);
             }}
             modules={[Navigation]}>
             {charactersSrc.map((src, index) => (
-              <SwiperSlide className="!h-fit !flex justify-center items-center w-full">
-                <div className="w-10/12 aspect-square border border-white rounded-2xl bg-gradient-to-b from-white/10 to-white/5 p-5 ">
+              <SwiperSlide
+                key={`level slide--${index}`}
+                className="!h-fit !flex justify-center items-center w-full">
+                <div className="w-4/6 aspect-square  rounded-2xl bg-gradient-to-b from-white/10 to-white/5 p-5 ">
                   <img
                     src={src}
-                    className="w-full aspect-square object-contain bg-black-80 rounded-xl bg-[radial-gradient(circle,rgba(255,255,255,1)0%,rgba(255,215,0,0.75)100%);]"
+                    className="w-full aspect-square object-contain rounded-xl "
                   />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="w-full text-5xl">{currentSlide}</div>
+          <div className="w-full mt-5 flex flex-col gap-4 justify-center items-center">
+            <h2 className="text-center text-3xl capitalize">
+              {levels[currentSlide]}
+            </h2>
+            <span className="flex justify-center items-center gap-1 text-2xl">
+              <UsdCoin className="text-secondary-100 size-10" /> 2,000
+            </span>
+          </div>
         </div>
       </DrawerContent>
     </Drawer>
