@@ -1,4 +1,3 @@
-import { Flash } from "iconsax-react";
 import {
   Drawer,
   DrawerContent,
@@ -7,16 +6,23 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui";
-import { DoorOpen } from "lucide-react";
-import { FingerTapIcon } from "@/assets/icons";
-import { cn } from "@/utils";
 import { useState } from "react";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
-
+  // const [activeLevel, setActiveLevel] = useState<number>(0);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const charactersSrc = [
+    "/LevelCharacters/mrgem-bronze-character-transparent.webp",
+    "/LevelCharacters/mrgem-diamond-character-transparent.webp",
+    "/LevelCharacters/mrgem-gold-character-transparent.webp",
+    "/LevelCharacters/mrgem-iron-character-transparent.webp",
+    "/LevelCharacters/mrgem-platinum-character-transparent.webp",
+    "/LevelCharacters/mrgem-sliver-character-transparent.webp",
+  ];
   return (
     <Drawer
       snapPoints={[0.6, 0.9]}
@@ -37,37 +43,27 @@ const LevelsDrawer = ({}: Props) => {
           <DrawerTitle className="text-2xl font-semibold capitalize">
             Levels
           </DrawerTitle>
-          <DrawerDescription className="capitalize">
-            Here you can see all the levels
-          </DrawerDescription>
         </DrawerHeader>
-        <div className=" h-fit  w-full space-y-2 overflow-hidden overflow-y-scroll pb-20">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div
-              key={`levelBox--${i}`}
-              className={cn(
-                "w-full  rounded-xl overflow-hidden p-4 bg-[#101622] border backdrop-blur-xl",
-                i === 1 ? "border-[#C14DD4]" : " border-[#242C3E] "
-              )}>
-              <h5 className="w-full  h-fit  text-lg font-semibold">
-                LevelName
-              </h5>
-              <ol className="p-2 mt-2 grid grid-cols-3 divide-x-2 divide-gray-80">
-                <li className="flex items-center gap-2 text-sm w-full px-2 justify-center">
-                  <DoorOpen />
-                  <span> 3000</span>
-                </li>
-                <li className="flex items-center gap-2 text-sm w-full px-2 justify-center">
-                  <Flash />
-                  <span>2000</span>
-                </li>
-                <li className="flex items-center gap-2 text-sm w-full px-2 justify-center">
-                  <FingerTapIcon className="size-6" />
-                  <span>3</span>
-                </li>
-              </ol>
-            </div>
-          ))}
+        <div className="w-full h-screen">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={0}
+            onSlideChange={(slide) => {
+              setCurrentSlide(slide.activeIndex);
+            }}
+            modules={[Navigation]}>
+            {charactersSrc.map((src, index) => (
+              <SwiperSlide className="!h-fit !flex justify-center items-center w-full">
+                <div className="w-10/12 aspect-square border border-white rounded-2xl bg-gradient-to-b from-white/10 to-white/5 p-5 ">
+                  <img
+                    src={src}
+                    className="w-full aspect-square object-contain bg-black-80 rounded-xl bg-[radial-gradient(circle,rgba(255,255,255,1)0%,rgba(255,215,0,0.75)100%);]"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="w-full text-5xl">{currentSlide}</div>
         </div>
       </DrawerContent>
     </Drawer>

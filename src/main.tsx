@@ -4,7 +4,9 @@ import "./index.css";
 import { routeTree } from "./routeTree.gen";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Provider } from "react-redux";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 // import store from "./redux/store";
 
 const queryClient = new QueryClient();
