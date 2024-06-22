@@ -18,6 +18,7 @@ module.exports = {
       },
     },
     colors: {
+      transparent: "transparent",
       white: "#FFFFFF",
       gray: {
         100: "#333333",
@@ -52,18 +53,7 @@ module.exports = {
         20: "#FFB5C3",
         10: "#FFD2DB",
       },
-      primary: {
-        100: "#2196F3",
-        90: "#37A1F4",
-        80: "#4DABF5",
-        70: "#64B5F7",
-        60: "#7AC0F8",
-        50: "#90CBF9",
-        40: "#A6D5FA",
-        30: "#BCDFFB",
-        20: "#D3EAFD",
-        10: "#E9F4FE",
-      },
+      primary: "#171B29",
       secondary: {
         100: "#FD881F",
         90: "#FD9435",
@@ -100,6 +90,8 @@ module.exports = {
         20: "#FFF0B8",
         10: "#FFF6D4",
       },
+      card: "#101622",
+      cardBorder: "#242C3E",
     },
     extend: {
       colors: {
@@ -108,10 +100,6 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

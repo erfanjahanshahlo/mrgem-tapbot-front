@@ -14,7 +14,7 @@ const FriendsPage = ({}: Props) => {
         <h1 className="capitalize text-3xl font-bold">invite friends!</h1>
         <p className="text-base">share your referral link to earn rewards</p>
         <div className="w-full space-y-1.5">
-          <div className="grid grid-cols-4 p-2  bg-[#101622] border border-[#242C3E] backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
+          <div className="grid grid-cols-4 p-2  bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
             <img src={ClashOfClansLogo} className="w-full rounded-md" />
             <div className="col-span-3 text-sm flex flex-col justify-start items-start gap-2">
               <p className="text-lg font-semibold">Invite a friend</p>
@@ -31,7 +31,7 @@ const FriendsPage = ({}: Props) => {
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-4 p-2  pb-5 bg-[#101622] border border-[#242C3E] backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
+          <div className="grid grid-cols-4 p-2  pb-5 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
             <img src={ClashOfClansLogo} className="w-full rounded-md" />
             <div className="col-span-3 text-sm flex flex-col justify-start items-start gap-2">
               <p className="text-lg font-semibold">
@@ -60,7 +60,7 @@ const FriendsPage = ({}: Props) => {
               className={cn(isSpining ? "animate-spin" : "")}
             />
           </div>
-          <div className="col-span-full bg-[#101622] border border-[#242C3E] backdrop-blur-3xl py-5 w-full flex justify-center items-center rounded-xl text-white/40">
+          <div className="col-span-full bg-card border border-cardBorder backdrop-blur-3xl py-5 w-full flex justify-center items-center rounded-xl text-white/40">
             You havent invited any friends yet
           </div>
         </div>
