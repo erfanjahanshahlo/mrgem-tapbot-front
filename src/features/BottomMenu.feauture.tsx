@@ -6,7 +6,7 @@ type Props = {};
 
 const BottomMenu = ({}: Props) => {
   return (
-    <div className="w-11/12 h-[70px] bg-card border border-cardBorder  max-w-md fixed bottom-4 rounded-xl  flex justify-between px-6 py-2 items-center gap-4 left-1/2 -translate-x-1/2 backdrop-blur-3xl">
+    <div className="w-full h-[70px] bg-card border-t border-t-cardBorder  max-w-md fixed bottom-0 rounded-t-xl  flex justify-between px-6 py-2 items-center gap-4 left-1/2 -translate-x-1/2 backdrop-blur-3xl">
       <Link
         to="/"
         className="flex justify-between items-center flex-col  h-full text-opacity-60 text-white [&.active]:text-opacity-100">
