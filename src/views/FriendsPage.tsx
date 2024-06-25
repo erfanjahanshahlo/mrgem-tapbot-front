@@ -9,7 +9,7 @@ type Props = {};
 const FriendsPage = ({}: Props) => {
   const [isSpining, setIsSpining] = useState(false);
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center gap-5">
+    <div className="w-full h-full flex flex-col justify-between items-center gap-5 overflow-hidden overflow-y-auto pb-3">
       <div className="flex flex-col items-center gap-5">
         <h1 className="capitalize text-3xl font-bold">invite friends!</h1>
         <p className="text-base">share your referral link to earn rewards</p>
