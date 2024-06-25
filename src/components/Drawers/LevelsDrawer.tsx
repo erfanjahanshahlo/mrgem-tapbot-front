@@ -75,12 +75,12 @@ const LevelsDrawer = ({}: Props) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="w-full mt-5 flex flex-col gap-4 justify-center items-center">
-            <h2 className="text-center text-3xl capitalize">
+          <div className="w-full mt-5 flex flex-col  justify-center items-center">
+            <h2 className="text-center text-3xl capitalize font-bold">
               {levels[currentSlide]}
             </h2>
-            <span className="flex justify-center items-center gap-1 text-2xl">
-              <UsdCoin className="text-secondary-100 size-10" /> 2,000
+            <span className="flex justify-center items-center gap-1 text-base">
+              <UsdCoin className="text-secondary-100 size-5" /> 2,000
             </span>
           </div>
         </div>
