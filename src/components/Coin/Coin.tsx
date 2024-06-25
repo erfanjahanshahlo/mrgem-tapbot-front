@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Mrgemcharacter from "/Mrgemcharacter.png";
+import Mrgemcharacter from "/LevelCharacters/mrgem-bronze-character-transparent.webp";
 import { distance, round } from "@/utils";
 import { motion, useAnimation } from "framer-motion";
 import { AnimatedSpan } from "../AnimatedSpan/AnimatedSpan";
@@ -85,7 +85,7 @@ const Coin = ({}: Props) => {
         transformOrigin: "center",
         perspective: "320px",
       }}
-      className="w-auto min-w-[66%] aspect-square min-h-60 mx-auto relative bg-gradient-to-br max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)] shadow-black-100 from-primary outline-[16px] outline  outline-white/80 to-card    rounded-full  p-8">
+      className="w-auto min-w-[66%]  aspect-square min-h-60 mx-auto relative bg-gradient-to-br max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)] shadow-black-100 from-primary outline-[16px] outline  outline-white/80 to-card    rounded-full  p-10">
       {spans.map((span, id) => (
         <AnimatedSpan {...span} key={`animated span num--${id}`} />
       ))}
