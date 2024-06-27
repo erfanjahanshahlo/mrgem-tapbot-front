@@ -11,13 +11,7 @@ export const Route = createRootRoute({
 function Root() {
   const { webApp } = useTelegram();
   useEffect(() => {
-    // const app = (window as any).Telegram?.WebApp;
-    // if (app) {
-    //   app.ready();
-    // }
-    webApp?.isExpanded &&
-      webApp?.MainButton.isActive &&
-      webApp?.MainButton.isVisible;
+    webApp?.expand();
   }, []);
   return (
     <TelegramProvider>
