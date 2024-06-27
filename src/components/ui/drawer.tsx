@@ -2,6 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/utils";
+import { X } from "lucide-react";
 
 const Drawer = ({
   shouldScaleBackground = true,
@@ -45,7 +46,10 @@ const DrawerContent = React.forwardRef<
         className
       )}
       {...props}>
-      <div className="mx-auto mt-4 h-1 w-[100px] rounded-full bg-white" />
+      {/* <div className="mx-auto mt-4 size-4 w-[100px] rounded-full bg-white"></div> */}
+      <DrawerClose className="size-10 rounded-full absolute top-4 right-4 cursor-pointer bg-white/50 flex justify-center items-center">
+        <X className="text-black-100 " />
+      </DrawerClose>
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

@@ -94,3 +94,8 @@
     height: calc(sin(30deg) * 100px);
   }
 }
+
+/* Hide scrollbar anywhere */
+::-webkit-scrollbar {
+  display: none;
+}
