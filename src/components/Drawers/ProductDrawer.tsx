@@ -31,7 +31,7 @@ const ProductDrawer = ({}: Props) => {
             src={ClashOfClansBanner}
             className="w-full object-cover object-center rounded-2xl aspect-[3/4]"
           />
-          <div className="w-full h-2/5 bg-black/60 p-4 backdrop-blur absolute inset-x-0 bottom-0">
+          <div className="w-full h-1/4 bg-black/60  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
             <h5 className="text-sm">UC pubge mobile</h5>
             <span className="flex justify-center items-center gap-2">
               <UsdCoin className="text-secondary-100" />

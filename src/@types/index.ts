@@ -1,0 +1,1 @@
+export { type ITelegramUser, type IWebApp } from "./telegram"
