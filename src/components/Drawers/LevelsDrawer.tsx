@@ -34,7 +34,7 @@ const LevelsDrawer = ({}: Props) => {
   ];
   return (
     <Drawer
-      snapPoints={[0.6, 0.9]}
+      snapPoints={[0.9]}
       activeSnapPoint={snapPoint}
       disablePreventScroll={false}
       modal={false}

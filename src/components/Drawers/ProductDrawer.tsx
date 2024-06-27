@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Drawer,
@@ -10,17 +10,38 @@ import {
 // import { UsdCoin } from "iconsax-react";
 import ClashOfClansBanner from "../../../public/clashOfClansBanner.jfif";
 import { UsdCoin } from "iconsax-react";
-import { UserCircle2Icon, UserIcon } from "lucide-react";
+import { TimerIcon, UserCircle2Icon, UserIcon } from "lucide-react";
 type Props = {};
 
 const ProductDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
+  // Define the starting time in seconds (e.g., 1 minute = 60 seconds)
+  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const calCulateTimeLeft = (time: number) => {
+    if (time <= 0) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timeInterval);
+        return;
+      }
+      setTimeLeft((prev) => --prev);
+    }, 1000);
+
+    return () => {
+      clearInterval(timeInterval);
+    };
+  }, []);
   return (
     <Drawer
       open={isDialogOpen}
       onOpenChange={setIsDialogOpen}
-      snapPoints={[0.6, 0.9]}
+      snapPoints={[0.9]}
       activeSnapPoint={snapPoint}
       disablePreventScroll={false}
       modal={false}
@@ -31,9 +52,16 @@ const ProductDrawer = ({}: Props) => {
             src={ClashOfClansBanner}
             className="w-full object-cover object-center rounded-2xl aspect-[3/4]"
           />
-          <div className="w-full h-1/4 bg-black/60  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
-            <h5 className="text-sm">UC pubge mobile</h5>
-            <span className="flex justify-center items-center gap-2">
+          {timeLeft > 0 && (
+            <div
+              key={timeLeft}
+              className="absolute gap-1 bg-black/60 backdrop-blur w-11/12 h-10 top-1 left-1/2 rounded-md -translate-x-1/2 flex justify-center items-center">
+              <TimerIcon /> {calCulateTimeLeft(timeLeft)}
+            </div>
+          )}
+          <div className="w-full h-1/4 gap-1 bg-black/60 divide-y divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
+            <h5 className="text-sm text-center ">UC pubge mobile</h5>
+            <span className="flex w-full pt-1 justify-center items-center gap-2">
               <UsdCoin className="text-secondary-100" />
               1000
             </span>

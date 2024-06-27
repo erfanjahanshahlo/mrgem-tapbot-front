@@ -4,10 +4,12 @@ import { UsdCoin } from "iconsax-react";
 import { useState } from "react";
 import { cn } from "@/utils";
 import { Button } from "@/components/ui";
+import { useTelegram } from "@/features/TelegramProvider";
 type Props = {};
 
 const FriendsPage = ({}: Props) => {
   const [isSpining, setIsSpining] = useState(false);
+  const { webApp } = useTelegram();
   return (
     <div className="w-full h-full flex flex-col justify-between items-center gap-5 overflow-hidden overflow-y-auto pb-3">
       <div className="flex flex-col items-center gap-5">
@@ -66,11 +68,19 @@ const FriendsPage = ({}: Props) => {
         </div>
       </div>
       <div className="w-full h-fit grid grid-cols-6 gap-1">
-        <Button className="h-14 text-white/90 rounded-xl  w-full p-0 text-base  animate-pulse col-span-5  capitalize flex justify-center items-center gap-1">
+        <Button
+          onClick={() =>
+            webApp?.openTelegramLink(
+              `https://t.me/share/url?url=https://t.me/xteenbaby/13226&text=iph79p`
+            )
+          }
+          className="h-14 text-white/90 rounded-xl  w-full p-0 text-base  animate-pulse col-span-5  capitalize flex justify-center items-center gap-1">
           Invite friends
           <UserPlus2 className="size-5" />
         </Button>
-        <Button className="h-14 text-white/90 rounded-xl  w-full p-0 text-base   capitalize aspect-square flex justify-center items-center gap-1">
+        <Button
+          onClick={() => webApp?.showAlert("hello")}
+          className="h-14 text-white/90 rounded-xl  w-full p-0 text-base   capitalize aspect-square flex justify-center items-center gap-1">
           <Copy />
         </Button>
       </div>

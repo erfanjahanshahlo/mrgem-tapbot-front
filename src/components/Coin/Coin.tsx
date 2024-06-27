@@ -73,8 +73,8 @@ const Coin = ({}: Props) => {
   }, [spans]);
   return (
     <motion.div
-      onMouseDown={animate}
-      onMouseUp={stopAnimating}
+      onTouchStart={animate}
+      onTouchEnd={stopAnimating}
       animate={{
         rotateY: rotations.x,
         rotateX: rotations.y,

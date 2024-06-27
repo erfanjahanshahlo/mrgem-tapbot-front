@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { TelegramProvider } from "./features";
 // import store from "./redux/store";
 
 const queryClient = new QueryClient();
@@ -26,10 +27,12 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        {/* <Provider store={store}> */}
-        <RouterProvider router={router} />
-        {/* </Provider> */}
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <TelegramProvider>
+          {/* <Provider store={store}> */}
+          <RouterProvider router={router} />
+          {/* </Provider> */}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </TelegramProvider>
       </QueryClientProvider>
     </StrictMode>
   );

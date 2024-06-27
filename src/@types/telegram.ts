@@ -46,5 +46,7 @@ export interface IWebApp {
     };
     HapticFeedback: any;
     expand: () => void;
+    openTelegramLink: (url: string) => void;
+    showAlert: (message: string) => void;
 }
 

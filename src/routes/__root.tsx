@@ -1,4 +1,4 @@
-import { BottomMenu, Layout, Navbar, TelegramProvider } from "@/features";
+import { BottomMenu, Layout, Navbar } from "@/features";
 import { useTelegram } from "@/features/TelegramProvider";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
@@ -14,7 +14,7 @@ function Root() {
     webApp?.expand();
   }, []);
   return (
-    <TelegramProvider>
+    <>
       <Navbar />
       <Layout>
         <Outlet />
@@ -22,6 +22,6 @@ function Root() {
       {/* Remove this line in production */}
       <TanStackRouterDevtools />
       <BottomMenu />
-    </TelegramProvider>
+    </>
   );
 }
