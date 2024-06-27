@@ -15,7 +15,7 @@ type Props = {};
 
 const ProductDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
+  // const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   // Define the starting time in seconds (e.g., 1 minute = 60 seconds)
   const [timeLeft, setTimeLeft] = useState<number>(60);
   const calCulateTimeLeft = (time: number) => {
@@ -37,15 +37,17 @@ const ProductDrawer = ({}: Props) => {
       clearInterval(timeInterval);
     };
   }, []);
+  // const [isFocused, setIsFocused] = useState(false);
   return (
     <Drawer
       open={isDialogOpen}
       onOpenChange={setIsDialogOpen}
-      snapPoints={[0.9]}
-      activeSnapPoint={snapPoint}
-      disablePreventScroll={false}
-      modal={false}
-      setActiveSnapPoint={setSnapPoint}>
+      // snapPoints={[0.9]}
+      // activeSnapPoint={snapPoint}
+      // disablePreventScroll={true}
+      // modal={true}
+      // setActiveSnapPoint={setSnapPoint}
+    >
       <DrawerTrigger asChild>
         <div className="w-full  h-full  rounded-2xl bg-card border border-cardBorder relative">
           <img
@@ -55,11 +57,11 @@ const ProductDrawer = ({}: Props) => {
           {timeLeft > 0 && (
             <div
               key={timeLeft}
-              className="absolute gap-1 bg-black/60 backdrop-blur w-11/12 h-10 top-1 left-1/2 rounded-md -translate-x-1/2 flex justify-center items-center">
-              <TimerIcon /> {calCulateTimeLeft(timeLeft)}
+              className="absolute gap-1 bg-black/60 backdrop-blur w-11/12 h-7 text-sm top-1 left-1/2 rounded-md -translate-x-1/2 flex justify-center items-center">
+              <TimerIcon className="size-5" /> {calCulateTimeLeft(timeLeft)}
             </div>
           )}
-          <div className="w-full h-1/4 gap-1 bg-black/60 divide-y divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
+          <div className="w-full h-1/4 gap-1 bg-black/60 divide-y rounded-b-2xl px-2 divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
             <h5 className="text-sm text-center ">UC pubge mobile</h5>
             <span className="flex w-full pt-1 justify-center items-center gap-2">
               <UsdCoin className="text-secondary-100" />
@@ -68,13 +70,13 @@ const ProductDrawer = ({}: Props) => {
           </div>
         </div>
       </DrawerTrigger>
-      <DrawerContent className="  h-fit  !outline-none pb-20">
+      <DrawerContent className={""}>
         <DrawerHeader>
           <DrawerTitle className="text-2xl font-semibold capitalize">
             Enter your details
           </DrawerTitle>
         </DrawerHeader>
-        <div className="w-full h-fit px-5 space-y-5">
+        <div className="w-full overflow-auto px-5 space-y-5">
           <img
             src={ClashOfClansBanner}
             className="w-full h-auto aspect-video rounded-lg"
@@ -84,6 +86,8 @@ const ProductDrawer = ({}: Props) => {
             <span className="text-sm">Game ID :</span>
             <label htmlFor="gameId" className="relative">
               <input
+                // onBlur={() => setIsFocused(false)}
+                // onFocus={() => setIsFocused(true)}
                 type="text"
                 name=""
                 id=""
@@ -96,6 +100,8 @@ const ProductDrawer = ({}: Props) => {
             <span className="text-sm">Game Name :</span>
             <label htmlFor="gameName" className="relative">
               <input
+                // onBlur={() => setIsFocused(false)}
+                // onFocus={() => setIsFocused(true)}
                 type="text"
                 name=""
                 id=""
@@ -103,13 +109,12 @@ const ProductDrawer = ({}: Props) => {
               />
               <UserIcon className="absolute top-1/2 left-2 -translate-y-1/2" />
             </label>
+            <Button className="w-full mt-5 px-5 mb-5" disabled>
+              Purchase
+            </Button>
           </div>
         </div>
-        <div className="w-full mt-5 px-5">
-          <Button className="w-full" disabled>
-            Purchase
-          </Button>
-        </div>
+        <div className="w-full "></div>
       </DrawerContent>
     </Drawer>
   );

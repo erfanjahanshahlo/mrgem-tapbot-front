@@ -1,3 +1,4 @@
+import Coin from "/G-coin.webp";
 import {
   Drawer,
   DrawerContent,
@@ -8,7 +9,6 @@ import {
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { UsdCoin } from "iconsax-react";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
@@ -80,7 +80,8 @@ const LevelsDrawer = ({}: Props) => {
               {levels[currentSlide]}
             </h2>
             <span className="flex justify-center items-center gap-1 text-base">
-              <UsdCoin className="text-secondary-100 size-5" /> 2,000
+              <img src={Coin} alt="" className="size-5" />
+              2,000
             </span>
           </div>
         </div>

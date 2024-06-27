@@ -1,5 +1,6 @@
 import { FingerTapIcon } from "@/assets/icons";
-import { Flash, UsdCoin } from "iconsax-react";
+import { Flash } from "iconsax-react";
+import Coin from "/G-coin.webp";
 
 type Props = {};
 
@@ -7,7 +8,8 @@ const MineDetail = ({}: Props) => {
   return (
     <div className="text-white mt-2 space-y-2 w-full mx-auto">
       <div className="flex justify-center w-full items-center gap-2">
-        <UsdCoin className="size-20 text-secondary-90 " />
+        {/* <UsdCoin className="size-20 text-secondary-90 " /> */}
+        <img src={Coin} alt="" className="size-20" />
         <span className="text-4xl font-semibold text-secondary-90 ">
           200,000,000
         </span>

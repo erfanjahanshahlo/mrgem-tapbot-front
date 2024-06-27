@@ -1,7 +1,6 @@
 import { BottomMenu, Layout, Navbar } from "@/features";
 import { useTelegram } from "@/features/TelegramProvider";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { useEffect } from "react";
 
 export const Route = createRootRoute({
@@ -20,7 +19,7 @@ function Root() {
         <Outlet />
       </Layout>
       {/* Remove this line in production */}
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
       <BottomMenu />
     </>
   );

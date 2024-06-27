@@ -9,6 +9,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui";
+import Coin from "/G-coin.webp";
+
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
 import { UsdCoin } from "iconsax-react";
 import { ChevronRight } from "lucide-react";
@@ -25,7 +27,8 @@ const TaskDrawer = ({}: Props) => {
             <div className="text-sm flex flex-col justify-start items-start ">
               <p className="text-base font-medium">New video</p>
               <span className=" space-x-0.5">
-                <UsdCoin className="inline text-secondary-100" />
+                {/* <UsdCoin className="inline text-secondary-100" /> */}
+                <img src={Coin} alt="" className="size-8 inline" />
 
                 <span className="font-bold ml-0.5 ">+5,000</span>
               </span>
@@ -35,7 +38,8 @@ const TaskDrawer = ({}: Props) => {
         </div>
       </DrawerTrigger>
       <DrawerContent>
-        <UsdCoin className="text-secondary-100 size-28 mx-auto mt-5" />
+        {/* <UsdCoin className="text-secondary-100 size-28 mx-auto mt-5" /> */}
+        <img src={Coin} alt="" className="size-28 mx-auto mt-5" />
 
         <DrawerHeader>
           <DrawerTitle className="text-3xl">Secrets of the market</DrawerTitle>
