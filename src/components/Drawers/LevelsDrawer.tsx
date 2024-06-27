@@ -1,4 +1,4 @@
-import Coin from "/G-coin.webp";
+import Coin from "/G-coin.png";
 import {
   Drawer,
   DrawerContent,
@@ -66,10 +66,10 @@ const LevelsDrawer = ({}: Props) => {
               <SwiperSlide
                 key={`level slide--${index}`}
                 className="!h-fit !flex justify-center items-center w-full">
-                <div className="w-4/6 h-fit  rounded-2xl bg-gradient-to-b from-white/10 to-white/5 p-5 ">
+                <div className="w-4/6 h-fit  rounded-2xl bg-gradient-to-b from-white/10 to-white/5 ">
                   <img
                     src={src}
-                    className="w-full h-fit object-contain rounded-xl "
+                    className="w-full h-auto aspect-[3/4] object-contain rounded-xl "
                   />
                 </div>
               </SwiperSlide>

@@ -4,7 +4,7 @@ type Props = {};
 
 const MinePage = ({}: Props) => {
   return (
-    <div className="w-full h-full py-5">
+    <div className="w-full h-full py-2 flex flex-col ">
       <LevelCard />
       <Mine />
     </div>

@@ -5,7 +5,7 @@ type Props = {};
 
 const LevelCard = ({}: Props) => {
   return (
-    <div className="w-full h-fit p-2 py-3  bg-card border border-cardBorder backdrop-blur-3xl text-white  rounded-xl  space-y-0.5">
+    <div className="w-full h-fit p-2   bg-card border border-cardBorder backdrop-blur-3xl text-white  rounded-xl  space-y-0.5">
       <div className="w-full flex  justify-between items-center">
         <LevelsDrawer />
       </div>

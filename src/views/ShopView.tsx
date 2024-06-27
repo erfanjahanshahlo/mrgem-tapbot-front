@@ -1,6 +1,6 @@
 import { ProductDrawer } from "@/components/Drawers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
-import { UsdCoin } from "iconsax-react";
+import Coin from "/G-coin.png";
 
 type Props = {};
 
@@ -8,7 +8,8 @@ const ShopView = ({}: Props) => {
   return (
     <div className="w-full h-full space-y-4 scroll-pb-2 overflow-hidden overflow-y-auto">
       <span className="w-full gap-2 font-bold flex justify-center items-center text-white text-2xl">
-        <UsdCoin className="text-secondary-100" />
+        {/* <UsdCoin className="text-secondary-100" /> */}
+        <img src={Coin} alt="" className="size-6" />
         5,380
       </span>
       <Tabs defaultValue="Markets" className="w-full">

@@ -46,7 +46,7 @@ const GameDrawer = ({}: Props) => {
                 // setIsDialogOpen(false);
               }}
               className={cn(
-                "flex justify-between items-center p-4 bg-black-70 backdrop-blur-3xl rounded-2xl transition-colors duration-500",
+                "flex justify-between items-center p-4 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl transition-colors duration-500",
                 i === selectedGameIndex
                   ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
                   : ""

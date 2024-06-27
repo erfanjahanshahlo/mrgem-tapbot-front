@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui";
-import Coin from "/G-coin.webp";
+import Coin from "/G-coin.png";
 
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
 import { UsdCoin } from "iconsax-react";
@@ -28,9 +28,9 @@ const TaskDrawer = ({}: Props) => {
               <p className="text-base font-medium">New video</p>
               <span className=" space-x-0.5">
                 {/* <UsdCoin className="inline text-secondary-100" /> */}
-                <img src={Coin} alt="" className="size-8 inline" />
+                <img src={Coin} alt="" className="size-4.5 inline" />
 
-                <span className="font-bold ml-0.5 ">+5,000</span>
+                <span className="font-bold ml-1">+5,000</span>
               </span>
             </div>
           </div>

@@ -47,7 +47,7 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}>
       {/* <div className="mx-auto mt-4 size-4 w-[100px] rounded-full bg-white"></div> */}
-      <DrawerClose className="size-10 rounded-full absolute top-4 right-4 cursor-pointer bg-white/50 flex justify-center items-center">
+      <DrawerClose className="size-8 rounded-full absolute top-4 right-5 cursor-pointer bg-white/50 flex justify-center items-center">
         <X className="text-black-100 " />
       </DrawerClose>
       {children}
@@ -61,7 +61,7 @@ const DrawerHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("grid gap-1.5 p-4 text-center sm:text-left", className)}
+    className={cn("grid gap-1.5 p-4 px-5 text-center sm:text-left", className)}
     {...props}
   />
 );

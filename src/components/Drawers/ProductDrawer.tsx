@@ -9,8 +9,9 @@ import {
 } from "../ui";
 // import { UsdCoin } from "iconsax-react";
 import ClashOfClansBanner from "../../../public/clashOfClansBanner.jfif";
-import { UsdCoin } from "iconsax-react";
 import { TimerIcon, UserCircle2Icon, UserIcon } from "lucide-react";
+import Coin from "/G-coin.png";
+
 type Props = {};
 
 const ProductDrawer = ({}: Props) => {
@@ -57,14 +58,15 @@ const ProductDrawer = ({}: Props) => {
           {timeLeft > 0 && (
             <div
               key={timeLeft}
-              className="absolute gap-1 bg-black/60 backdrop-blur w-11/12 h-7 text-sm top-1 left-1/2 rounded-md -translate-x-1/2 flex justify-center items-center">
+              className="absolute gap-1 bg-black/60 backdrop-blur w-1/2 h-7 text-sm top-1 right-1 rounded-md flex justify-center items-center">
               <TimerIcon className="size-5" /> {calCulateTimeLeft(timeLeft)}
             </div>
           )}
-          <div className="w-full h-1/4 gap-1 bg-black/60 divide-y rounded-b-2xl px-2 divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
+          <div className="w-full h-fit py-2 gap-1 bg-black/60 divide-y rounded-b-2xl px-2 divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
             <h5 className="text-sm text-center ">UC pubge mobile</h5>
             <span className="flex w-full pt-1 justify-center items-center gap-2">
-              <UsdCoin className="text-secondary-100" />
+              {/* <UsdCoin className="text-secondary-100" /> */}
+              <img src={Coin} className="size-5" alt="" />
               1000
             </span>
           </div>
@@ -109,7 +111,7 @@ const ProductDrawer = ({}: Props) => {
               />
               <UserIcon className="absolute top-1/2 left-2 -translate-y-1/2" />
             </label>
-            <Button className="w-full mt-5 px-5 mb-5" disabled>
+            <Button className="w-full mt-5 px-5 mb-6" disabled>
               Purchase
             </Button>
           </div>
