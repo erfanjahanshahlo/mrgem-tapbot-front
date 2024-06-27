@@ -15,13 +15,15 @@ const Coin = ({}: Props) => {
   const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
+    console.log(event);
+
     setAnimating(true);
 
     const rect = event.currentTarget.getBoundingClientRect();
 
     const absolute = {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      x: event.changedTouches[0].clientX - rect.left,
+      y: event.changedTouches[0].clientY - rect.top,
     };
 
     const percent = {
@@ -46,8 +48,8 @@ const Coin = ({}: Props) => {
       {
         id: Math.random(),
         text: "+2",
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
+        x: event.changedTouches[0].clientX - rect.left,
+        y: event.changedTouches[0].clientY - rect.top,
       },
     ]);
     await controls.start("visible");
