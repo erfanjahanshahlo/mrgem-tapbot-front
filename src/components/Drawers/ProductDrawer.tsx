@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "../ui";
 // import { UsdCoin } from "iconsax-react";
-import ClashOfClansBanner from "../../../public/clashOfClansBanner.jfif";
+import ClashOfClansBanner from "/clashOfClansBanner.jfif";
 import { TimerIcon, UserCircle2Icon, UserIcon } from "lucide-react";
 import Coin from "/G-coin.png";
 
