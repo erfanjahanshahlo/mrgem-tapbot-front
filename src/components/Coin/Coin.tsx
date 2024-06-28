@@ -87,15 +87,18 @@ const Coin = ({}: Props) => {
         transformOrigin: "center",
         perspective: "320px",
       }}
-      className="w-auto min-w-[66%] mt-auto  aspect-square min-h-60 mx-auto relative bg-gradient-to-br max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)] shadow-black-100 from-primary outline-[16px] outline  outline-white/80 to-card    rounded-full  p-10">
-      {spans.map((span, id) => (
-        <AnimatedSpan {...span} key={`animated span num--${id}`} />
-      ))}
-      <img
-        src={Mrgemcharacter}
-        alt=""
-        className="size-full object-cover object-center "
-      />
+      className="w-5/6 min-w-[66%] h-auto aspect-square mx-auto my-5 relative max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)]  shadow-black-100 rounded-full   ">
+      <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-br from-primary to-card rounded-full p-10">
+        {spans.map((span, id) => (
+          <AnimatedSpan {...span} key={`animated span num--${id}`} />
+        ))}
+        <img
+          src={Mrgemcharacter}
+          alt=""
+          className="size-full object-cover object-center aspect-square "
+        />
+      </div>
+      <div className="w-[calc(100%+25px)] aspect-square rounded-full z-10 absolute bg-gradient-to-t from-[#05070a] to-[#334766] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 " />
     </motion.div>
   );
 };

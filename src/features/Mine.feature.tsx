@@ -4,7 +4,7 @@ type Props = {};
 
 const Mine = ({}: Props) => {
   return (
-    <div className="w-full  flex flex-col justify-evenly items-center h-[calc(100%-200px)]">
+    <div className="w-full  flex flex-col justify-evenly items-center h-full">
       <Coin />
       <MineDetail />
     </div>
