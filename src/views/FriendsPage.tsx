@@ -76,7 +76,7 @@ const FriendsPage = ({}: Props) => {
               `https://t.me/share/url?url=https://t.me/xteenbaby/13226&text=iph79p`
             )
           }
-          className="h-14 text-white/90 rounded-xl  w-full p-0 text-base font-bold animate-pulse col-span-5  capitalize flex justify-center items-center gap-1">
+          className="h-14 text-white/90 rounded-xl  w-full p-0 text-base font-bold col-span-5  capitalize flex justify-center items-center gap-1">
           Invite friends
           <UserPlus2 className="size-5" />
         </Button>
