@@ -1,0 +1,1 @@
+export type IMethods = "POST" | "GET" | "DELETE" | "DISPATCH"

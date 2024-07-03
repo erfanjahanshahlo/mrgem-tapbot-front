@@ -7,8 +7,8 @@ import {
   DrawerTrigger,
 } from "../ui";
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
-import { ChevronRight } from "lucide-react";
 import { cn } from "@/utils";
+import { useDatas } from "@/hooks";
 
 type Props = {};
 
@@ -16,6 +16,7 @@ const GameDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   const [selectedGameIndex, setSelectedGameIndex] = useState<number>(0);
+  const { data } = useDatas();
   return (
     <Drawer
       open={isDialogOpen}
@@ -38,26 +39,27 @@ const GameDrawer = ({}: Props) => {
           </DrawerTitle>
         </DrawerHeader>
         <div className="w-full space-y-2 px-2 overflow-hidden overflow-y-scroll pb-5">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              onClick={() => {
-                setSelectedGameIndex(i);
-                // setIsDialogOpen(false);
-              }}
-              className={cn(
-                "flex justify-between items-center p-4 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl transition-colors duration-500",
-                i === selectedGameIndex
-                  ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
-                  : ""
-              )}>
-              <div className="flex gap-2 items-center">
-                <img src={ClashOfClansLogo} className="size-10 rounded-md" />
-                <div className="text-lg font-semibold">Clash of clans</div>
+          {data &&
+            data.success &&
+            Object.entries(data.data.games).map(([key, game]: any, i) => (
+              <div
+                key={key}
+                onClick={() => {
+                  setSelectedGameIndex(i); // You might need to adjust this based on how you're tracking selected games
+                  // setIsDialogOpen(false);
+                }}
+                className={cn(
+                  "flex justify-between items-center p-4 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl transition-colors duration-500",
+                  i === selectedGameIndex
+                    ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
+                    : ""
+                )}>
+                <div className="flex gap-2 items-center">
+                  <img src={game.icon} className="size-10 rounded-md" />
+                  <span>{game.name}</span>
+                </div>
               </div>
-              <ChevronRight className="text-lg" />
-            </div>
-          ))}
+            ))}
         </div>
       </DrawerContent>
     </Drawer>

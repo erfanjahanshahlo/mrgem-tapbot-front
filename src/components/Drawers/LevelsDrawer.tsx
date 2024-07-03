@@ -9,9 +9,12 @@ import {
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useDatas } from "@/hooks";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
+  const { data } = useDatas();
+
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   // const [activeLevel, setActiveLevel] = useState<number>(0);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -41,7 +44,9 @@ const LevelsDrawer = ({}: Props) => {
       setActiveSnapPoint={setSnapPoint}>
       <DrawerTrigger asChild>
         <div className="flex justify-between items-center gap-1 w-full">
-          <h2 className="text-base font-semibold">Legendary</h2>
+          <h2 className="text-base font-semibold">
+            {data?.user?.current_level}
+          </h2>
           <div className="text-sm leading-3">
             <p>2/10</p>
           </div>

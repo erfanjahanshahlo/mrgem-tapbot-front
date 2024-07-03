@@ -1,0 +1,1 @@
+export { useDatas } from "./useDatas"

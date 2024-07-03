@@ -1,17 +1,20 @@
 import { FingerTapIcon } from "@/assets/icons";
 import { Flash } from "iconsax-react";
 import Coin from "/G-coin.png";
+import { useDatas } from "@/hooks";
 
 type Props = {};
 
 const MineDetail = ({}: Props) => {
+  const { data } = useDatas();
+
   return (
     <div className="text-white space-y-2 w-full mx-auto">
       <div className="flex justify-center w-full items-center gap-2">
         {/* <UsdCoin className="size-20 text-secondary-90 " /> */}
         <img src={Coin} alt="" className="size-14" />
         <span className="text-4xl font-semibold text-secondary-90 ">
-          200,000,000
+          {data?.user?.coins}
         </span>
       </div>
       <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-1 text-white">
