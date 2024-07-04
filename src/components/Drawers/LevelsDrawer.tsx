@@ -10,6 +10,7 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { useDatas } from "@/hooks";
+import { FingerTapIcon } from "@/assets/icons";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
@@ -18,14 +19,14 @@ const LevelsDrawer = ({}: Props) => {
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   // const [activeLevel, setActiveLevel] = useState<number>(0);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const charactersSrc = [
-    "/LevelCharacters/mrgem-bronze-character-transparent.webp",
-    "/LevelCharacters/mrgem-diamond-character-transparent.webp",
-    "/LevelCharacters/mrgem-gold-character-transparent.webp",
-    "/LevelCharacters/mrgem-iron-character-transparent.webp",
-    "/LevelCharacters/mrgem-platinum-character-transparent.webp",
-    "/LevelCharacters/mrgem-sliver-character-transparent.webp",
-  ];
+  // const charactersSrc = [
+  //   "/LevelCharacters/mrgem-bronze-character-transparent.webp",
+  //   "/LevelCharacters/mrgem-diamond-character-transparent.webp",
+  //   "/LevelCharacters/mrgem-gold-character-transparent.webp",
+  //   "/LevelCharacters/mrgem-iron-character-transparent.webp",
+  //   "/LevelCharacters/mrgem-platinum-character-transparent.webp",
+  //   "/LevelCharacters/mrgem-sliver-character-transparent.webp",
+  // ];
   const levels = [
     "iron",
     "bronze",
@@ -35,6 +36,7 @@ const LevelsDrawer = ({}: Props) => {
     "diamond",
     "legendry",
   ];
+
   return (
     <Drawer
       snapPoints={[0.9]}
@@ -67,27 +69,36 @@ const LevelsDrawer = ({}: Props) => {
               setCurrentSlide(slide.activeIndex);
             }}
             modules={[Navigation]}>
-            {charactersSrc.map((src, index) => (
-              <SwiperSlide
-                key={`level slide--${index}`}
-                className="!h-fit !flex justify-center items-center w-full">
-                <div className="w-4/6 h-fit  rounded-2xl bg-gradient-to-b from-white/10 to-white/5 ">
-                  <img
-                    src={src}
-                    className="w-full h-auto aspect-[3/4] object-contain rounded-xl "
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
+            {data?.data?.levels &&
+              Object.entries(data?.data?.levels).map(
+                ([key, level]: any, index) => (
+                  <SwiperSlide
+                    key={`level slide--${index}--${key}`}
+                    className="!h-fit !flex justify-center items-center w-full">
+                    <div className="w-4/6 h-fit  rounded-2xl bg-gradient-to-b from-white/10 to-white/5 ">
+                      <img
+                        src={level.character}
+                        className="w-full h-auto aspect-[3/4] object-contain rounded-xl "
+                      />
+                    </div>
+                  </SwiperSlide>
+                )
+              )}
           </Swiper>
           <div className="w-full mt-5 flex flex-col  justify-center items-center">
             <h2 className="text-center text-3xl capitalize font-bold">
               {levels[currentSlide]}
             </h2>
-            <span className="flex justify-center items-center gap-1 text-base">
-              <img src={Coin} alt="" className="size-5" />
-              2,000
-            </span>
+
+            <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-1 text-white">
+              <span className="flex justify-center items-center gap-1 text-base">
+                <img src={Coin} alt="" className="size-5" />
+                2,000
+              </span>
+              <span className="flex justify-center items-center gap-0 text-base">
+                <FingerTapIcon className="fill-white stroke-white size-8 " />3
+              </span>
+            </div>
           </div>
         </div>
       </DrawerContent>

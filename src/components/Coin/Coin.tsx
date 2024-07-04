@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Mrgemcharacter from "/LevelCharacters/mrgem-bronze-character-transparent.webp";
 import { distance, round } from "@/utils";
 import { motion, useAnimation } from "framer-motion";
 import { AnimatedSpan } from "../AnimatedSpan/AnimatedSpan";
-type Props = {};
+type Props = {
+  coins: number;
+  setCoins: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const Coin = ({}: Props) => {
+const Coin = ({ setCoins }: Props) => {
   const [rotations, setRotations] = useState({ x: 0, y: 0, z: 0 });
   const [isAnimating, setAnimating] = useState(false);
   const isAnimatingReference = useRef(isAnimating);
@@ -16,7 +19,7 @@ const Coin = ({}: Props) => {
   const controls = useAnimation();
   const animate = async (event: any) => {
     console.log(event);
-
+    setCoins((prev) => prev + 2);
     setAnimating(true);
 
     const rect = event.currentTarget.getBoundingClientRect();
@@ -71,7 +74,7 @@ const Coin = ({}: Props) => {
     setTimeout(() => {
       setSpans([]);
       setIsTimeout(false);
-    }, 5000);
+    }, 10000);
   }, [spans]);
   return (
     <motion.div
