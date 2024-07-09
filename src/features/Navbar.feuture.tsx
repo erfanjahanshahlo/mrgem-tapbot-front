@@ -1,9 +1,10 @@
 import { GameDrawer } from "@/components/Drawers";
-import { useDatas } from "@/hooks";
+import { useMainContext } from "@/providers/MainContext";
 type Props = {};
 
 const Navbar = ({}: Props) => {
-  const { data } = useDatas();
+  const { data } = useMainContext();
+
   return (
     <nav className="w-full p-5 h-fit text-xl capitalize flex justify-between items-center text-white">
       <h3 className="font-bold">{data?.user?.name}</h3>

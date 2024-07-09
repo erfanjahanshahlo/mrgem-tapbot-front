@@ -1,5 +1,6 @@
 import { BottomMenu, Layout, Navbar } from "@/features";
 import { useTelegram } from "@/features/TelegramProvider";
+import { useDatas } from "@/hooks";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 export const Route = createRootRoute({
@@ -8,6 +9,8 @@ export const Route = createRootRoute({
 
 function Root() {
   const { webApp } = useTelegram();
+  useDatas();
+
   // const dispatch = useDispatch();
   useEffect(() => {
     webApp?.expand();

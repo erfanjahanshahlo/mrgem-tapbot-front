@@ -8,7 +8,7 @@ import {
 } from "../ui";
 import ClashOfClansLogo from "/clashOfClansIcon.webp";
 import { cn } from "@/utils";
-import { useDatas } from "@/hooks";
+import { useMainContext } from "@/providers/MainContext";
 
 type Props = {};
 
@@ -16,7 +16,7 @@ const GameDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   const [selectedGameIndex, setSelectedGameIndex] = useState<number>(0);
-  const { data } = useDatas();
+  const { data } = useMainContext();
   return (
     <Drawer
       open={isDialogOpen}
@@ -28,7 +28,7 @@ const GameDrawer = ({}: Props) => {
       setActiveSnapPoint={setSnapPoint}>
       <DrawerTrigger asChild>
         <div className="flex justify-center items-center gap-2 text-lg">
-          clash of clans
+          {data?.data.games[selectedGameIndex].name}
           <img src={ClashOfClansLogo} className="size-10 rounded-md" />
         </div>
       </DrawerTrigger>
@@ -40,13 +40,13 @@ const GameDrawer = ({}: Props) => {
         </DrawerHeader>
         <div className="w-full space-y-2 px-2 overflow-hidden overflow-y-scroll pb-5">
           {data &&
-            data.success &&
-            Object.entries(data.data.games).map(([key, game]: any, i) => (
+            data?.success &&
+            data?.data.games.map((game: any, i: number) => (
               <div
-                key={key}
+                key={game}
                 onClick={() => {
                   setSelectedGameIndex(i); // You might need to adjust this based on how you're tracking selected games
-                  // setIsDialogOpen(false);
+                  setIsDialogOpen(false);
                 }}
                 className={cn(
                   "flex justify-between items-center p-4 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl transition-colors duration-500",

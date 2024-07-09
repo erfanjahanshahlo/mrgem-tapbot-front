@@ -9,8 +9,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { TelegramProvider } from "./features";
-import { store } from "./redux/store";
-import { Provider } from "react-redux";
+import { MainContextProvider } from "./providers/MainContext";
 const queryClient = new QueryClient();
 
 // Create a new router instance
@@ -30,9 +29,10 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <TelegramProvider>
         <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
+          <MainContextProvider>
             <RouterProvider router={router} />
-          </Provider>
+          </MainContextProvider>
+
           <ReactQueryDevtools initialIsOpen />
         </QueryClientProvider>
       </TelegramProvider>

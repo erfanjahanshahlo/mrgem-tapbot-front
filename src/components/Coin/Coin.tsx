@@ -1,25 +1,47 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Mrgemcharacter from "/LevelCharacters/mrgem-bronze-character-transparent.webp";
 import { distance, round } from "@/utils";
 import { motion, useAnimation } from "framer-motion";
 import { AnimatedSpan } from "../AnimatedSpan/AnimatedSpan";
-type Props = {
-  coins: number;
-  setCoins: React.Dispatch<React.SetStateAction<number>>;
-};
+import { useMainContext } from "@/providers/MainContext";
+import { POWER_STORAGE_KEY, PowerData } from "../MineDetail/MineDetail";
+type Props = {};
 
-const Coin = ({ setCoins }: Props) => {
+const Coin = ({}: Props) => {
   const [rotations, setRotations] = useState({ x: 0, y: 0, z: 0 });
   const [isAnimating, setAnimating] = useState(false);
   const isAnimatingReference = useRef(isAnimating);
   const [spans, setSpans] = useState<
     { id: number; text: string; x: number; y: number }[]
   >([]);
+  const { data, setCoins, minePower, setMinePower } = useMainContext();
+
   const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
-    console.log(event);
-    setCoins((prev) => prev + 2);
+    // if (minePower === null) return;
+    // setMinePower((prev) => (prev !== null ? prev - 1 : null));
+    if (minePower !== null) {
+      const newPower = minePower - 1;
+      setMinePower(newPower);
+
+      const storedPower = localStorage.getItem(POWER_STORAGE_KEY);
+      if (storedPower) {
+        const parsedPower: PowerData = JSON.parse(storedPower);
+        const updatedPowerData: PowerData = {
+          value: newPower,
+          timestamp: parsedPower.timestamp, // Keep the original timestamp
+        };
+
+        localStorage.setItem(
+          POWER_STORAGE_KEY,
+          JSON.stringify(updatedPowerData)
+        );
+      }
+    }
+    setCoins(
+      (prev) => prev + data?.data.levels[data.user.current_level].earn_per_click
+    );
     setAnimating(true);
 
     const rect = event.currentTarget.getBoundingClientRect();
@@ -50,7 +72,7 @@ const Coin = ({ setCoins }: Props) => {
       ...prevSpans,
       {
         id: Math.random(),
-        text: "+2",
+        text: `+${data?.data.levels[data.user.current_level].earn_per_click}`,
         x: event.changedTouches[0].clientX - rect.left,
         y: event.changedTouches[0].clientY - rect.top,
       },

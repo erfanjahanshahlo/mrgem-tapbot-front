@@ -8,8 +8,10 @@ import { Button } from "@/components/ui";
 import { useTelegram } from "@/features/TelegramProvider";
 type Props = {};
 import Coin from "/G-coin.png";
+import { useMainContext } from "@/providers/MainContext";
 
 const FriendsPage = ({}: Props) => {
+  const { data } = useMainContext();
   const [isSpining, setIsSpining] = useState(false);
   const { webApp } = useTelegram();
   return (
@@ -29,7 +31,8 @@ const FriendsPage = ({}: Props) => {
                 />
                 <img src={Coin} className="inline size-5" alt="" />
                 <span className="font-bold ml-0.5 text-secondary-100 text-sm">
-                  +5,000
+                  {/* +5,000 */}
+                  {data?.data.invite_gift_regular}
                 </span>
                 <span>for you and your friend</span>
               </span>
@@ -48,7 +51,8 @@ const FriendsPage = ({}: Props) => {
                 />
                 <img src={Coin} className="inline size-5" alt="" />
                 <span className="font-bold ml-0.5 text-secondary-100 text-sm">
-                  +5,000
+                  {/* +5,000 */}
+                  {data?.data.invite_gift_premium}
                 </span>
                 <span>for you and your friend</span>
               </span>

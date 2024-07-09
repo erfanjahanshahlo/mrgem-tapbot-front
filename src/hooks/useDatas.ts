@@ -1,9 +1,12 @@
 import { urls } from "@/constants/urls";
+import { useMainContext } from "@/providers/MainContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
 
 export const useDatas = () => {
-    const { data, error, refetch } = useQuery({
+    const { setData, setCoins } = useMainContext()
+    const { data, refetch } = useQuery({
         queryKey: ["getConf"],
         queryFn: async () => {
             const { data } = await axios.get(urls.getConfig, {
@@ -13,11 +16,21 @@ export const useDatas = () => {
                 },
             });
             console.log(data);
+
             return data;
         },
+
     });
-    setTimeout(() => {
-        refetch()
-    }, 2000);
-    return { data, error, refetch }
+    if (!data) {
+        setTimeout(() => {
+            refetch()
+        }, 2000);
+    }
+    useEffect(() => {
+        if (data?.success) {
+            setData(data)
+            setCoins(data?.user.coins)
+        }
+        else setData(null)
+    }, [data])
 }
