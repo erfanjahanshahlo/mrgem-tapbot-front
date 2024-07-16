@@ -6,7 +6,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui";
-import ClashOfClansLogo from "/clashOfClansIcon.webp";
 import { cn } from "@/utils";
 import { useMainContext } from "@/providers/MainContext";
 
@@ -15,8 +14,18 @@ type Props = {};
 const GameDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
-  const [selectedGameIndex, setSelectedGameIndex] = useState<number>(0);
   const { data } = useMainContext();
+  const selectedGame =
+    data?.data.games.find((game: any) => {
+      return game.id === data.user.selected_game;
+    }) || null;
+  const indexOfSelectedGame = data?.data.games.findIndex(
+    (game: any) => game.id === data?.user.selected_game
+  );
+  const [selectedGameIndex, setSelectedGameIndex] = useState<number>(
+    indexOfSelectedGame || 0
+  );
+
   return (
     <Drawer
       open={isDialogOpen}
@@ -28,8 +37,14 @@ const GameDrawer = ({}: Props) => {
       setActiveSnapPoint={setSnapPoint}>
       <DrawerTrigger asChild>
         <div className="flex justify-center items-center gap-2 text-lg">
-          {data?.data.games[selectedGameIndex].name}
-          <img src={ClashOfClansLogo} className="size-10 rounded-md" />
+          {selectedGame !== null ? (
+            <>
+              {selectedGame.name}
+              <img src={selectedGame.name} className="size-10 rounded-md" />
+            </>
+          ) : (
+            <>Select your game</>
+          )}
         </div>
       </DrawerTrigger>
       <DrawerContent className="  h-full  !outline-none pb-20">
