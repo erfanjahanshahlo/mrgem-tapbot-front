@@ -1,4 +1,4 @@
-import { Copy, Dot, RefreshCcw, UserPlus2 } from "lucide-react";
+import { Copy, CopyCheck, Dot, RefreshCcw, UserPlus2 } from "lucide-react";
 // import GiftIcon from "/clashOfClansIcon.webp";
 import GiftIcon from "/gift.png";
 import GiftPremuimIcon from "/giftPremuim.png";
@@ -9,11 +9,13 @@ import { useTelegram } from "@/features/TelegramProvider";
 type Props = {};
 import Coin from "/G-coin.png";
 import { useMainContext } from "@/providers/MainContext";
+import { useCopy } from "@/hooks";
 
 const FriendsPage = ({}: Props) => {
   const { data } = useMainContext();
   const [isSpining, setIsSpining] = useState(false);
   const { webApp } = useTelegram();
+  const { onCopy, isCopied } = useCopy();
   return (
     <div className="w-full h-full flex flex-col justify-between items-center gap-5 overflow-hidden overflow-y-auto pb-3">
       <div className="flex flex-col items-center gap-5">
@@ -77,7 +79,7 @@ const FriendsPage = ({}: Props) => {
         <Button
           onClick={() =>
             webApp?.openTelegramLink(
-              `https://t.me/share/url?url=https://t.me/xteenbaby/13226&text=iph79p`
+              `https://t.me/share/url?url=${data?.user.invite_link}`
             )
           }
           className="h-14 text-white/90 rounded-xl  w-full p-0 text-base font-bold col-span-5  capitalize flex justify-center items-center gap-1">
@@ -85,9 +87,13 @@ const FriendsPage = ({}: Props) => {
           <UserPlus2 className="size-5" />
         </Button>
         <Button
-          onClick={() => webApp?.showAlert("hello")}
+          onClick={() => {
+            onCopy(data?.user.invite_link);
+            webApp?.showAlert("Copied to clipboard");
+          }}
+          disabled={isCopied}
           className="h-14 text-white/90 rounded-xl  w-full p-0 text-base   capitalize aspect-square flex justify-center items-center gap-1">
-          <Copy />
+          {isCopied ? <CopyCheck /> : <Copy />}
         </Button>
       </div>
     </div>

@@ -1,36 +1,53 @@
 import { urls } from "@/constants/urls";
+import { useTelegram } from "@/features/TelegramProvider";
 import { useMainContext } from "@/providers/MainContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const useDatas = () => {
-    const { setData, setCoins } = useMainContext()
-    const { data, refetch } = useQuery({
+    const { setData, setCoins } = useMainContext();
+    const { webApp } = useTelegram();
+    const [isLoading, setIsLoading] = useState(true);
+    const startAppParam = webApp?.initDataUnsafe?.start_param;
+
+    const { data, isError } = useQuery({
         queryKey: ["getConf"],
         queryFn: async () => {
-            const { data } = await axios.get(urls.getConfig, {
-                headers: {
-                    "X-INITDATA":
-                        "query_id=AAFHYuV1AAAAAEdi5XXcexw-&user=%7B%22id%22%3A1977967175%2C%22first_name%22%3A%22Erfan%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22jahanerfan%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719402153&hash=235077694a1d4b0c6d2f7e172df2074577907cca72bbd55a200f9bfffe0e8aac",
-                },
-            });
+            const { data } = await axios.get(
+                startAppParam ? `${urls.getConfig}?start_param=${startAppParam}` : urls.getConfig,
+                {
+                    headers: {
+                        "X-INITDATA": webApp?.initDataUnsafe.user.is_premium
+                            ? `${webApp?.initData}&isp=true`
+                            : webApp?.initData
+                    },
+                }
+            );
             console.log(data);
-
             return data;
         },
-
+        retry: 3,
+        retryDelay: 2000,
     });
-    if (!data) {
-        setTimeout(() => {
-            refetch()
-        }, 2000);
-    }
+
     useEffect(() => {
         if (data?.success) {
-            setData(data)
-            setCoins(data?.user.coins)
+            setData(data);
+            setCoins(data?.user.coins);
+            setIsLoading(false);
+        } else if (isError) {
+            setData(null);
+            setIsLoading(false);
+            webApp?.showPopup({
+                title: "Error",
+                message: "Please reopen the app",
+                buttons: [{ text: "OK", type: "close" }],
+            }, () => {
+                webApp.close()
+            })
         }
-        else setData(null)
-    }, [data])
-}
+    }, [data, isError]);
+
+    return { isLoading, data };
+};

@@ -1,16 +1,18 @@
 import { ProductDrawer } from "@/components/Drawers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import Coin from "/G-coin.png";
+import { useMainContext } from "@/providers/MainContext";
 
 type Props = {};
 
 const ShopView = ({}: Props) => {
+  const { coins } = useMainContext();
   return (
     <div className="w-full h-full space-y-4 scroll-pb-2 overflow-hidden overflow-y-auto">
       <span className="w-full gap-2 font-bold flex justify-center items-center text-white text-2xl">
         {/* <UsdCoin className="text-secondary-100" /> */}
         <img src={Coin} alt="" className="size-6" />
-        5,380
+        {coins}
       </span>
       <Tabs defaultValue="Markets" className="w-full">
         <TabsList className="sticky top-5 z-50">

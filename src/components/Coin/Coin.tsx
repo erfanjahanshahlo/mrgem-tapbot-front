@@ -15,7 +15,14 @@ const Coin = ({}: Props) => {
     { id: number; text: string; x: number; y: number }[]
   >([]);
   const { data, setCoins, minePower, setMinePower } = useMainContext();
+  const currentLevel =
+    data?.data.levels.find(
+      (level: any) => level.id === data.user.current_level
+    ) || null;
 
+  // const indexOfCurrentLevel = data?.data.levels.findIndex(
+  //   (level: any) => level.id === data?.user.current_level
+  // );
   const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
@@ -39,9 +46,7 @@ const Coin = ({}: Props) => {
         );
       }
     }
-    setCoins(
-      (prev) => prev + data?.data.levels[data.user.current_level].earn_per_click
-    );
+    setCoins((prev) => prev + currentLevel?.earn_per_click);
     setAnimating(true);
 
     const rect = event.currentTarget.getBoundingClientRect();
@@ -72,7 +77,7 @@ const Coin = ({}: Props) => {
       ...prevSpans,
       {
         id: Math.random(),
-        text: `+${data?.data.levels[data.user.current_level].earn_per_click}`,
+        text: `+${currentLevel?.earn_per_click}`,
         x: event.changedTouches[0].clientX - rect.left,
         y: event.changedTouches[0].clientY - rect.top,
       },

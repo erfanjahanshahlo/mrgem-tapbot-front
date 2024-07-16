@@ -5,6 +5,7 @@ export interface ITelegramUser {
     last_name: string;
     username: string;
     language_code: string;
+    is_premium?: boolean
 }
 
 export interface IWebApp {
@@ -14,6 +15,8 @@ export interface IWebApp {
         user: ITelegramUser;
         auth_date: string;
         hash: string;
+        start_param?: string
+
     };
     version: string;
     platform: string;
@@ -48,5 +51,15 @@ export interface IWebApp {
     expand: () => void;
     openTelegramLink: (url: string) => void;
     showAlert: (message: string) => void;
+    showPopup: (params: {
+        title: string;
+        message: string;
+        buttons: {
+            id?: string;
+            type: 'default' | 'ok' | 'close' | "cancel" | "destructive";
+            text?: string;
+        }[]
+    }, callback?: () => void) => void;
+    close: () => void;
 }
 

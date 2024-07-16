@@ -16,6 +16,14 @@ export const POWER_VALIDITY_PERIOD = 30 * 60 * 1000; // 30 minutes in millisecon
 
 const MineDetail = ({}: Props) => {
   const { data, coins, minePower, setMinePower } = useMainContext();
+  const currentLevel =
+    data?.data.levels.find(
+      (level: any) => level.id === data.user.current_level
+    ) || null;
+
+  // const indexOfCurrentLevel = data?.data.levels.findIndex(
+  //   (level: any) => level.id === data?.user.current_level
+  // );
   useEffect(() => {
     // Load power from localStorage or backend when component mounts
     if (data === null) return;
@@ -46,7 +54,7 @@ const MineDetail = ({}: Props) => {
   };
 
   const fetchPowerFromBackend = async () => {
-    const powerValue = data?.data.levels[data.user.current_level].earn_power;
+    const powerValue = currentLevel?.earn_power;
 
     const newPowerData: PowerData = {
       value: powerValue,
@@ -66,15 +74,15 @@ const MineDetail = ({}: Props) => {
           {coins}
         </span>
       </div>
-      <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-1 text-white">
+      <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-3 text-white">
         <span className="flex justify-center items-center gap-1 text-base">
           <Flash className="" />
           {/* 1000/3000 */}
-          {`${minePower}/${data?.data.levels[+data.user.current_level].earn_power}`}
+          {`${minePower}/${currentLevel?.earn_power}`}
         </span>
         <span className="flex justify-center items-center gap-0 text-base">
           <FingerTapIcon className="fill-white stroke-white size-8 " />
-          {data?.data.levels[+data.user.current_level].earn_per_click}
+          {currentLevel?.earn_per_click}
         </span>
       </div>
     </div>
