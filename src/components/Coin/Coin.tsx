@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Mrgemcharacter from "/LevelCharacters/mrgem-bronze-character-transparent.webp";
+// import Mrgemcharacter from "/Mrgemcharacter.png";
 import { distance, round } from "@/utils";
 import { motion, useAnimation } from "framer-motion";
 import { AnimatedSpan } from "../AnimatedSpan/AnimatedSpan";
@@ -20,16 +20,14 @@ const Coin = ({}: Props) => {
       (level: any) => level.id === data.user.current_level
     ) || null;
 
-  // const indexOfCurrentLevel = data?.data.levels.findIndex(
-  //   (level: any) => level.id === data?.user.current_level
-  // );
+  const indexOfCurrentLevel = data?.data.levels.findIndex(
+    (level: any) => level.id === data?.user.current_level
+  );
   const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
-    // if (minePower === null) return;
-    // setMinePower((prev) => (prev !== null ? prev - 1 : null));
     if (minePower !== null) {
-      const newPower = minePower - 1;
+      const newPower = minePower - currentLevel?.earn_per_click;
       setMinePower(newPower);
 
       const storedPower = localStorage.getItem(POWER_STORAGE_KEY);
@@ -103,6 +101,7 @@ const Coin = ({}: Props) => {
       setIsTimeout(false);
     }, 10000);
   }, [spans]);
+
   return (
     <motion.div
       onTouchStart={animate}
@@ -118,17 +117,17 @@ const Coin = ({}: Props) => {
         perspective: "320px",
       }}
       className="w-5/6 min-w-[66%] h-auto aspect-square mx-auto my-5 relative max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)]  shadow-black-100 rounded-full   ">
-      <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-br from-primary to-card rounded-full p-10">
+      <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-tl from-[#3A4466] to-[hsl(20, 14%, 20%)] rounded-full p-4">
         {spans.map((span, id) => (
           <AnimatedSpan {...span} key={`animated span num--${id}`} />
         ))}
         <img
-          src={Mrgemcharacter}
+          src={data?.data.levels[indexOfCurrentLevel].character}
           alt=""
           className="size-full object-cover object-center aspect-square "
         />
       </div>
-      <div className="w-[calc(100%+25px)] aspect-square rounded-full z-10 absolute bg-gradient-to-t from-[#05070a] to-[#334766] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 " />
+      <div className="w-[calc(100%+25px)] aspect-square rounded-full z-10 absolute bg-gradient-to-b from-[#5A7BA6] to-[#2A3040] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 " />
     </motion.div>
   );
 };

@@ -1,4 +1,5 @@
 import Coin from "/G-coin.png";
+
 import {
   Drawer,
   DrawerContent,
@@ -12,10 +13,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { FingerTapIcon } from "@/assets/icons";
 import { useMainContext } from "@/providers/MainContext";
+import { Flash } from "iconsax-react";
+import { formatNumber, formatNumberToM } from "@/utils";
+import { Infinity } from "lucide-react";
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
-  const { data } = useMainContext();
+  const { data, coins } = useMainContext();
 
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   const currentLevel =
@@ -26,11 +30,8 @@ const LevelsDrawer = ({}: Props) => {
   const indexOfCurrentLevel = data?.data.levels.findIndex(
     (level: any) => level.id === data?.user.current_level
   );
-  // const indexOfCurrentLevel = data?.data.levels.indexOf(currentLevel);\
 
-  const [currentSlide, setCurrentSlide] = useState<number>(
-    indexOfCurrentLevel || 0
-  );
+  const [currentSlide, setCurrentSlide] = useState<number>(indexOfCurrentLevel);
   // const charactersSrc = [
   //   "/LevelCharacters/mrgem-bronze-character-transparent.webp",
   //   "/LevelCharacters/mrgem-diamond-character-transparent.webp",
@@ -39,6 +40,14 @@ const LevelsDrawer = ({}: Props) => {
   //   "/LevelCharacters/mrgem-platinum-character-transparent.webp",
   //   "/LevelCharacters/mrgem-sliver-character-transparent.webp",
   // ];
+  // Assuming entryPoint and exitPoint are available
+  const entryPoint = currentLevel?.entry; // Example: 0 for the start of the level
+  const exitPoint = data?.data.levels[indexOfCurrentLevel + 1]?.entry; // Example: 10000 for the end of the level
+
+  // Ensure these values are numbers and not undefined
+  const totalRange = exitPoint - entryPoint;
+  const currentProgress = coins - entryPoint;
+  const progressPercentage = (currentProgress / totalRange) * 100;
 
   return (
     <Drawer
@@ -58,12 +67,42 @@ const LevelsDrawer = ({}: Props) => {
             </div>{" "}
           </div>
           <div className="relative h-8 w-full">
-            <Progress value={60} />
-            <span className="w-full text-right block">10K</span>
+            <Progress
+              value={
+                indexOfCurrentLevel + 1 === data?.data?.levels.length
+                  ? 100
+                  : progressPercentage
+              }
+              indicatorClassName={
+                indexOfCurrentLevel + 1 === data?.data?.levels.length
+                  ? "bg-green-50"
+                  : ""
+              }
+            />
+            <span className="w-full flex justify-end items-end">
+              {indexOfCurrentLevel + 1 === data?.data?.levels.length ? (
+                <Infinity />
+              ) : (
+                `${formatNumberToM(data?.data.levels[indexOfCurrentLevel + 1]?.entry)}`
+              )}
+            </span>
             <span
               className="absolute bottom-0"
-              style={{ left: "60%", transform: "translateX(-50%)" }}>
-              6K
+              style={{
+                left: `${
+                  indexOfCurrentLevel + 1 === data?.data?.levels.length ||
+                  progressPercentage < 6
+                    ? 0
+                    : progressPercentage
+                }%`,
+                transform:
+                  indexOfCurrentLevel + 1 === data?.data?.levels.length ||
+                  coins == data?.data.levels[indexOfCurrentLevel].entry ||
+                  progressPercentage < 6
+                    ? ""
+                    : "translateX(-50%)",
+              }}>
+              {formatNumberToM(Math.floor(coins))}
             </span>
           </div>
         </div>
@@ -79,6 +118,8 @@ const LevelsDrawer = ({}: Props) => {
             slidesPerView={1}
             spaceBetween={0}
             navigation
+            // defaultValue={indexOfCurrentLevel}
+            initialSlide={indexOfCurrentLevel}
             onSlideChange={(slide) => {
               setCurrentSlide(slide.activeIndex);
             }}
@@ -101,16 +142,22 @@ const LevelsDrawer = ({}: Props) => {
             <h2 className="text-center text-3xl capitalize font-bold">
               {data?.data?.levels[currentSlide]?.name}
             </h2>
-
-            <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-3 text-white">
-              <span className="flex justify-center items-center gap-1 text-base">
-                <img src={Coin} alt="" className="size-5" />
-                {/* 2,000 */}
-                {data?.data?.levels[currentSlide]?.earn_power}
+            <div className="flex justify-center w-fit items-center mx-auto gap-2">
+              <img src={Coin} alt="" className="size-8" />
+              <span className="text-2xl font-semibold text-white">
+                {formatNumber(data?.data?.levels[currentSlide]?.entry)}
               </span>
-              <span className="flex justify-center items-center gap-0 text-base">
+            </div>
+            <div className="flex justify-center w-fit mx-auto h-8 items-center gap-2 text-white">
+              <span className="flex justify-center items-center gap-1 text-base">
+                <Flash />
+                {formatNumber(data?.data?.levels[currentSlide]?.earn_power)}
+              </span>
+              <span className="h-8 w-0.5 bg-gray-90"></span>
+
+              <span className="flex justify-center items-center gap-1 text-base">
                 <FingerTapIcon className="fill-white stroke-white size-8 " />
-                {data?.data?.levels[currentSlide]?.earn_per_click}
+                {formatNumber(data?.data?.levels[currentSlide]?.earn_per_click)}
               </span>
             </div>
           </div>

@@ -1,8 +1,11 @@
-import { FingerTapIcon } from "@/assets/icons";
-import { Flash } from "iconsax-react";
 import Coin from "/G-coin.png";
+import Electric from "/electric.png";
+import CoinPlus from "/coinPlus.png";
+import Friends from "/friends.png";
 import { useMainContext } from "@/providers/MainContext";
 import { useEffect } from "react";
+import { formatNumber } from "@/utils";
+import { Link } from "@tanstack/react-router";
 // import { useDatas } from "@/hooks";
 
 type Props = {};
@@ -66,24 +69,41 @@ const MineDetail = ({}: Props) => {
   };
 
   return (
-    <div className="text-white space-y-2 w-full mx-auto">
+    <div className="text-white space-y-4 w-full mx-auto">
       <div className="flex justify-center w-full items-center gap-2">
         {/* <UsdCoin className="size-20 text-secondary-90 " /> */}
         <img src={Coin} alt="" className="size-14" />
         <span className="text-4xl font-semibold text-secondary-90 ">
-          {coins}
+          {formatNumber(coins)}
         </span>
       </div>
-      <div className="flex justify-center w-fit mx-auto divide-x-2 divide-gray-90 items-center gap-3 text-white">
-        <span className="flex justify-center items-center gap-1 text-base">
-          <Flash className="" />
-          {/* 1000/3000 */}
-          {`${minePower}/${currentLevel?.earn_power}`}
-        </span>
-        <span className="flex justify-center items-center gap-0 text-base">
-          <FingerTapIcon className="fill-white stroke-white size-8 " />
-          {currentLevel?.earn_per_click}
-        </span>
+      <div className="flex justify-around w-full h-fit mt-6 items-center gap-6 text-white">
+        <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
+          <div className="size-14 bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
+            <img src={Electric} className="size-10" alt="" />
+          </div>
+          {`${formatNumber(minePower || 0)}/${formatNumber(currentLevel?.earn_power)}`}
+        </div>
+        <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
+          <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
+            <img src={CoinPlus} className="size-10" alt="" />
+            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full animate-pulse bg-green-50">
+              {currentLevel?.earn_per_click}
+            </div>
+          </div>
+          Earn
+        </div>
+        <Link
+          to="/friends"
+          className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
+          <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
+            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full animate-pulse bg-green-50">
+              {data?.user.invite_list.length}
+            </div>
+            <img src={Friends} alt="" className="size-10" />
+          </div>
+          Friends
+        </Link>
       </div>
     </div>
   );

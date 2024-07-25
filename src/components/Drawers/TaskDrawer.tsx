@@ -1,3 +1,4 @@
+import { formatNumber } from "@/utils";
 import {
   Button,
   Drawer,
@@ -22,6 +23,7 @@ type Props = {
   icon: string;
   id: string;
   name: string;
+  isCompleted?: boolean;
 };
 
 const TaskDrawer = ({
@@ -34,6 +36,7 @@ const TaskDrawer = ({
   heading,
   icon,
   name,
+  isCompleted,
 }: Props) => {
   console.log(id);
 
@@ -48,30 +51,38 @@ const TaskDrawer = ({
               <span className=" space-x-0.5">
                 <img src={Coin} alt="" className="size-4.5 inline" />
 
-                <span className="font-bold ml-1">+{coin}</span>
+                <span className="font-bold ml-1">+{formatNumber(coin)}</span>
               </span>
             </div>
           </div>
-          <ChevronRight className="size-7" />
+          {isCompleted ? (
+            <span className="text-green-500">Completed</span>
+          ) : (
+            <ChevronRight className="size-7" />
+          )}
         </div>
       </DrawerTrigger>
       <DrawerContent>
-        <img src={Coin} alt="" className="size-28 mx-auto mt-5" />
+        <img src={icon} alt="" className="size-28 mx-auto mt-5" />
 
         <DrawerHeader>
           <DrawerTitle className="text-3xl">{heading}</DrawerTitle>
           <DrawerDescription className="text-white">
             {description}
           </DrawerDescription>
-          <Button
-            className="w-fit mx-auto rounded-xl px-10 my-5 text-base font-medium"
-            asChild>
-            <a href={action_link}>{action_text}</a>
-          </Button>
+          {action_text && (
+            <Button
+              className="w-fit mx-auto rounded-xl px-10 my-5 text-base font-medium"
+              asChild>
+              <a href={action_link}>{action_text}</a>
+            </Button>
+          )}
           <div className="flex justify-center items-center">
             <img src={Coin} alt="" className="size-5 inline" />
             {/* <UsdCoin className="inline text-secondary-100" /> */}
-            <span className="font-bold text-lg ml-0.5 ">+{coin}</span>
+            <span className="font-bold text-lg ml-0.5 ">
+              +{formatNumber(coin)}
+            </span>
           </div>
         </DrawerHeader>
 

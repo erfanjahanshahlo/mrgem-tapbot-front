@@ -11,6 +11,7 @@ import {
 import ClashOfClansBanner from "/clashOfClansBanner.jfif";
 import { TimerIcon, UserCircle2Icon, UserIcon } from "lucide-react";
 import Coin from "/G-coin.png";
+import { formatNumber } from "@/utils";
 
 type Props = {};
 
@@ -67,7 +68,7 @@ const ProductDrawer = ({}: Props) => {
             <span className="flex w-full pt-1 justify-center items-center gap-2">
               {/* <UsdCoin className="text-secondary-100" /> */}
               <img src={Coin} className="size-5" alt="" />
-              1000
+              {formatNumber(1000)}
             </span>
           </div>
         </div>

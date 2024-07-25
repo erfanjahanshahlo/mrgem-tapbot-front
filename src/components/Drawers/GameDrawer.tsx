@@ -39,8 +39,11 @@ const GameDrawer = ({}: Props) => {
         <div className="flex justify-center items-center gap-2 text-lg">
           {selectedGame !== null ? (
             <>
-              {selectedGame.name}
-              <img src={selectedGame.name} className="size-10 rounded-md" />
+              {data?.data.games[selectedGameIndex].name}
+              <img
+                src={data?.data.games[selectedGameIndex].icon}
+                className="size-10 rounded-md"
+              />
             </>
           ) : (
             <>Select your game</>
@@ -69,8 +72,8 @@ const GameDrawer = ({}: Props) => {
                     ? "bg-gradient-to-bl from-secondary-80 to-secondary-100"
                     : ""
                 )}>
-                <div className="flex gap-2 items-center">
-                  <img src={game.icon} className="size-10 rounded-md" />
+                <div className="flex gap-2 items-center text-lg">
+                  <img src={game.icon} className="size-14 rounded-md" />
                   <span>{game.name}</span>
                 </div>
               </div>

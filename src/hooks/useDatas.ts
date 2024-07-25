@@ -39,13 +39,13 @@ export const useDatas = () => {
         } else if (isError) {
             setData(null);
             setIsLoading(false);
-            webApp?.showPopup({
-                title: "Error",
-                message: "Please reopen the app",
-                buttons: [{ text: "OK", type: "close" }],
-            }, () => {
-                webApp.close()
-            })
+            // webApp?.showPopup({
+            //     title: "Error",
+            //     message: "Please reopen the app",
+            //     buttons: [{ text: "OK", type: "close" }],
+            // }, () => {
+            //     webApp.close()
+            // })
         }
     }, [data, isError]);
 

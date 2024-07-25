@@ -17,7 +17,36 @@ function Root() {
   }, [webApp]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col w-full h-full justify-end items-center p-6 relative">
+        <div className="flex flex-col gap-2 justify-center items-center absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
+          <div className="loader"></div>
+          <span className="text-2xl capitalize">loading</span>
+        </div>
+        <div className="mt-10 space-y-2">
+          <h1 className="text-2xl font-bold text-center">MRgem bot</h1>
+          <p className="text-center">Please wait while we load the app</p>
+          <h2 className="text-center text-6xl font-bold">on TON</h2>
+        </div>
+        <div className="mt-5">
+          <p className="text-center">stay tuned</p>
+          <h6 className="text-center">More info in socials</h6>
+          <div className="flex justify-center items-center gap-5 mt-3">
+            <a
+              href="#"
+              className="size-10 rounded-full bg-red-50 flex justify-center items-center p-2">
+              icon
+            </a>
+            <a
+              href="#"
+              className="size-10 rounded-full bg-red-50 flex justify-center items-center p-2"></a>
+            <a
+              href="#"
+              className="size-10 rounded-full bg-red-50 flex justify-center items-center p-2"></a>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // if (webApp?.platform !== "android" && webApp?.platform !== "ios") {

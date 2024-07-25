@@ -3,7 +3,7 @@ import { Copy, CopyCheck, Dot, RefreshCcw, UserPlus2 } from "lucide-react";
 import GiftIcon from "/gift.png";
 import GiftPremuimIcon from "/giftPremuim.png";
 import { useState } from "react";
-import { cn } from "@/utils";
+import { cn, formatNumber } from "@/utils";
 import { Button } from "@/components/ui";
 import { useTelegram } from "@/features/TelegramProvider";
 type Props = {};
@@ -34,7 +34,7 @@ const FriendsPage = ({}: Props) => {
                 <img src={Coin} className="inline size-5" alt="" />
                 <span className="font-bold ml-0.5 text-secondary-100 text-sm">
                   {/* +5,000 */}
-                  {data?.data.invite_gift_regular}
+                  {formatNumber(data?.data.invite_gift_regular)}
                 </span>
                 <span>for you and your friend</span>
               </span>
@@ -54,7 +54,7 @@ const FriendsPage = ({}: Props) => {
                 <img src={Coin} className="inline size-5" alt="" />
                 <span className="font-bold ml-0.5 text-secondary-100 text-sm">
                   {/* +5,000 */}
-                  {data?.data.invite_gift_premium}
+                  {formatNumber(data?.data.invite_gift_premium)}
                 </span>
                 <span>for you and your friend</span>
               </span>
