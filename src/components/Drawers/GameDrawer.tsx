@@ -8,12 +8,16 @@ import {
 } from "../ui";
 import { cn } from "@/utils";
 import { useMainContext } from "@/providers/MainContext";
+import axios from "axios";
+import { urls } from "@/constants/urls";
+import { useTelegram } from "@/features/TelegramProvider";
 
 type Props = {};
 
 const GameDrawer = ({}: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
+  const { webApp } = useTelegram();
   const { data } = useMainContext();
   const selectedGame =
     data?.data.games.find((game: any) => {
@@ -25,7 +29,26 @@ const GameDrawer = ({}: Props) => {
   const [selectedGameIndex, setSelectedGameIndex] = useState<number>(
     indexOfSelectedGame || 0
   );
-
+  const handleClick = async (gameId: string, i: number) => {
+    setSelectedGameIndex(i); // You might need to adjust this based on how you're tracking selected games
+    const { status } = await axios.post(
+      urls.changeGame,
+      {
+        id: gameId,
+      },
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "X-INITDATA": webApp?.initData,
+        },
+      }
+    );
+    if (status >= 400 && status < 500) {
+      // Handle error
+      return;
+    }
+    setIsDialogOpen(false);
+  };
   return (
     <Drawer
       open={isDialogOpen}
@@ -62,9 +85,8 @@ const GameDrawer = ({}: Props) => {
             data?.data.games.map((game: any, i: number) => (
               <div
                 key={game}
-                onClick={() => {
-                  setSelectedGameIndex(i); // You might need to adjust this based on how you're tracking selected games
-                  setIsDialogOpen(false);
+                onClick={async () => {
+                  await handleClick(game.id, i);
                 }}
                 className={cn(
                   "flex justify-between items-center p-4 bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl transition-colors duration-500",

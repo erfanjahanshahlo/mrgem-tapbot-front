@@ -61,5 +61,7 @@ export interface IWebApp {
         }[]
     }, callback?: () => void) => void;
     close: () => void;
+    disableVerticalSwipes: () => void;
+    enableVerticalSwipes: () => void;
 }
 

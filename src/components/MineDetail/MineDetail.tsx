@@ -31,8 +31,36 @@ const MineDetail = ({}: Props) => {
     // Load power from localStorage or backend when component mounts
     if (data === null) return;
     loadPower();
-  }, [data]);
 
+    const powerInterval = setInterval(() => {
+      if (minePower === null) return;
+      if (minePower >= currentLevel.earn_power) return;
+      setMinePower((prev) => {
+        if (prev === null) {
+          return 0;
+        } else {
+          return Math.min(
+            currentLevel.earn_power,
+            prev +
+              Math.floor(
+                currentLevel.earn_power / data.data.earn_power_fullrestore
+              )
+          );
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(powerInterval);
+  }, [data]);
+  useEffect(() => {
+    if (!data || minePower === null) return;
+    const updatedPowerData: PowerData = {
+      value: minePower,
+      timestamp: Date.now(),
+    };
+
+    localStorage.setItem(POWER_STORAGE_KEY, JSON.stringify(updatedPowerData));
+  }, [minePower, data]);
   const loadPower = async () => {
     const storedPower = localStorage.getItem(POWER_STORAGE_KEY);
 
@@ -87,7 +115,7 @@ const MineDetail = ({}: Props) => {
         <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
           <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
             <img src={CoinPlus} className="size-10" alt="" />
-            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full animate-pulse bg-green-50">
+            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full bg-green-50">
               {currentLevel?.earn_per_click}
             </div>
           </div>
@@ -97,7 +125,7 @@ const MineDetail = ({}: Props) => {
           to="/friends"
           className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
           <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
-            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full animate-pulse bg-green-50">
+            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full bg-green-50">
               {data?.user.invite_list.length}
             </div>
             <img src={Friends} alt="" className="size-10" />

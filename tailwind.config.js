@@ -9,6 +9,7 @@ module.exports = {
     "./index.html",
   ],
   prefix: "",
+
   theme: {
     container: {
       center: true,
@@ -17,6 +18,7 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+
     colors: {
       transparent: "transparent",
       white: "#FFFFFF",
@@ -94,6 +96,9 @@ module.exports = {
       cardBorder: "#242C3E",
     },
     extend: {
+      backgroundImage: {
+        loading: "url('/loadingScreen.webp')",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

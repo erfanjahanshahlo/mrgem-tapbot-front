@@ -5,6 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 import { AnimatedSpan } from "../AnimatedSpan/AnimatedSpan";
 import { useMainContext } from "@/providers/MainContext";
 import { POWER_STORAGE_KEY, PowerData } from "../MineDetail/MineDetail";
+import { useSyncCoins } from "@/hooks/useSyncCoins";
 type Props = {};
 
 const Coin = ({}: Props) => {
@@ -14,12 +15,13 @@ const Coin = ({}: Props) => {
   const [spans, setSpans] = useState<
     { id: number; text: string; x: number; y: number }[]
   >([]);
-  const { data, setCoins, minePower, setMinePower } = useMainContext();
+  const { data, setCoins, minePower, setMinePower, userCoins } =
+    useMainContext();
   const currentLevel =
     data?.data.levels.find(
       (level: any) => level.id === data.user.current_level
     ) || null;
-
+  const { syncCoins } = useSyncCoins();
   const indexOfCurrentLevel = data?.data.levels.findIndex(
     (level: any) => level.id === data?.user.current_level
   );
@@ -44,9 +46,13 @@ const Coin = ({}: Props) => {
         );
       }
     }
-    setCoins((prev) => prev + currentLevel?.earn_per_click);
+    // data?.user.coins
+    setCoins((prev) => {
+      const newCoins = prev + currentLevel?.earn_per_click;
+      localStorage.setItem("coins", (newCoins - userCoins).toString());
+      return prev + currentLevel?.earn_per_click;
+    });
     setAnimating(true);
-
     const rect = event.currentTarget.getBoundingClientRect();
 
     const absolute = {
@@ -81,6 +87,7 @@ const Coin = ({}: Props) => {
       },
     ]);
     await controls.start("visible");
+    await syncCoins();
   };
 
   const stopAnimating = () => {
@@ -105,6 +112,7 @@ const Coin = ({}: Props) => {
   return (
     <motion.div
       onTouchStart={animate}
+      // onClick={animate}
       onTouchEnd={stopAnimating}
       animate={{
         rotateY: rotations.x,
@@ -121,6 +129,7 @@ const Coin = ({}: Props) => {
         {spans.map((span, id) => (
           <AnimatedSpan {...span} key={`animated span num--${id}`} />
         ))}
+        {localStorage.getItem("coins")}
         <img
           src={data?.data.levels[indexOfCurrentLevel].character}
           alt=""

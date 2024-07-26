@@ -11,6 +11,8 @@ const MainContext = createContext<{
   setData: React.Dispatch<React.SetStateAction<Record<string, any> | null>>;
   coins: number;
   setCoins: React.Dispatch<React.SetStateAction<number>>;
+  userCoins: number;
+  setUserCoins: React.Dispatch<React.SetStateAction<number>>;
   minePower: number | null;
   setMinePower: React.Dispatch<React.SetStateAction<number | null>>;
 }>({
@@ -20,6 +22,9 @@ const MainContext = createContext<{
   coins: 0,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCoins: () => {},
+  userCoins: 0,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setUserCoins: () => {},
   minePower: 0,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setMinePower: () => {},
@@ -30,9 +35,19 @@ export function MainContextProvider({ children }: PropsWithChildren) {
   const [data, setData] = useState<Record<string, any> | null>(null);
   const [coins, setCoins] = useState<number>(0);
   const [minePower, setMinePower] = useState<number | null>(null);
+  const [userCoins, setUserCoins] = useState<number>(0);
   return (
     <MainContext.Provider
-      value={{ data, setData, coins, setCoins, minePower, setMinePower }}>
+      value={{
+        data,
+        setData,
+        coins,
+        setCoins,
+        minePower,
+        setMinePower,
+        setUserCoins,
+        userCoins,
+      }}>
       {children}
     </MainContext.Provider>
   );

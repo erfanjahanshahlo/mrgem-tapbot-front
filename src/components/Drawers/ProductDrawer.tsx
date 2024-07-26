@@ -8,10 +8,8 @@ import {
   DrawerTrigger,
 } from "../ui";
 // import { UsdCoin } from "iconsax-react";
-import ClashOfClansBanner from "/clashOfClansBanner.jfif";
-import { TimerIcon, UserCircle2Icon, UserIcon } from "lucide-react";
-import Coin from "/G-coin.png";
-import { formatNumber } from "@/utils";
+import ClashOfClansBanner from "/shopProduct.png";
+import { UserCircle2Icon, UserIcon } from "lucide-react";
 
 type Props = {};
 
@@ -20,12 +18,12 @@ const ProductDrawer = ({}: Props) => {
   // const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   // Define the starting time in seconds (e.g., 1 minute = 60 seconds)
   const [timeLeft, setTimeLeft] = useState<number>(60);
-  const calCulateTimeLeft = (time: number) => {
-    if (time <= 0) return "0:00";
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
+  // const calCulateTimeLeft = (time: number) => {
+  //   if (time <= 0) return "0:00";
+  //   const minutes = Math.floor(time / 60);
+  //   const seconds = time % 60;
+  //   return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  // };
   useEffect(() => {
     const timeInterval = setInterval(() => {
       if (timeLeft <= 0) {
@@ -51,27 +49,11 @@ const ProductDrawer = ({}: Props) => {
       // setActiveSnapPoint={setSnapPoint}
     >
       <DrawerTrigger asChild>
-        <div className="w-full  h-full  rounded-2xl bg-card border border-cardBorder relative">
-          <img
-            src={ClashOfClansBanner}
-            className="w-full object-cover object-center rounded-2xl aspect-[3/4]"
-          />
-          {timeLeft > 0 && (
-            <div
-              key={timeLeft}
-              className="absolute gap-1 bg-black/60 backdrop-blur w-1/2 h-7 text-sm top-1 right-1 rounded-md flex justify-center items-center">
-              <TimerIcon className="size-5" /> {calCulateTimeLeft(timeLeft)}
-            </div>
-          )}
-          <div className="w-full h-fit py-2 gap-1 bg-black/60 divide-y rounded-b-2xl px-2 divide-white/70  flex justify-center items-center flex-col backdrop-blur absolute inset-x-0 bottom-0">
-            <h5 className="text-sm text-center ">UC pubge mobile</h5>
-            <span className="flex w-full pt-1 justify-center items-center gap-2">
-              {/* <UsdCoin className="text-secondary-100" /> */}
-              <img src={Coin} className="size-5" alt="" />
-              {formatNumber(1000)}
-            </span>
-          </div>
-        </div>
+        <Button
+          variant={"secondary"}
+          className="flex-1 py-2 text-sm font-semibold rounded-md capitalize bg-black-60">
+          buy
+        </Button>
       </DrawerTrigger>
       <DrawerContent className={""}>
         <DrawerHeader>

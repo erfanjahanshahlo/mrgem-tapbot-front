@@ -33,7 +33,6 @@ const FriendsPage = ({}: Props) => {
                 />
                 <img src={Coin} className="inline size-5" alt="" />
                 <span className="font-bold ml-0.5 text-secondary-100 text-sm">
-                  {/* +5,000 */}
                   {formatNumber(data?.data.invite_gift_regular)}
                 </span>
                 <span>for you and your friend</span>
@@ -70,9 +69,27 @@ const FriendsPage = ({}: Props) => {
               className={cn(isSpining ? "animate-spin" : "")}
             />
           </div>
-          <div className="col-span-full text-sm bg-card border border-cardBorder backdrop-blur-3xl py-5 w-full flex justify-center items-center rounded-xl text-white/40">
-            You havent invited any friends yet
-          </div>
+          {data?.user.invite_list.length === 0 ? (
+            <div className="col-span-full text-sm bg-card border border-cardBorder backdrop-blur-3xl py-5 w-full flex justify-center items-center rounded-xl text-white/40">
+              You haven't invited any friends yet
+            </div>
+          ) : (
+            <>
+              {data?.user.invite_list.map((item: any, i: number) => (
+                <div
+                  key={`invited user--${i}`}
+                  className="col-span-full text-sm bg-card border border-cardBorder backdrop-blur-3xl p-4 w-full flex justify-between  items-center rounded-xl text-white/40">
+                  {`${item.first_name} ${item.last_name}`}
+                  <span className="flex justify-center items-center gap-2">
+                    <img src={Coin} className="size-5 inline" alt="" />
+                    <span className="font-bold ml-0.5 text-secondary-100 text-sm">
+                      {formatNumber(data?.data.invite_gift_premium)}
+                    </span>
+                  </span>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
       <div className="w-full h-fit grid grid-cols-6 gap-1">
