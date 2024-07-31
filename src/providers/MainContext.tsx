@@ -15,6 +15,8 @@ const MainContext = createContext<{
   setUserCoins: React.Dispatch<React.SetStateAction<number>>;
   minePower: number | null;
   setMinePower: React.Dispatch<React.SetStateAction<number | null>>;
+  syncing: boolean;
+  setSyncing: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   data: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -28,6 +30,8 @@ const MainContext = createContext<{
   minePower: 0,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setMinePower: () => {},
+  setSyncing: () => {},
+  syncing: false,
 });
 
 // Create a provider component
@@ -36,6 +40,8 @@ export function MainContextProvider({ children }: PropsWithChildren) {
   const [coins, setCoins] = useState<number>(0);
   const [minePower, setMinePower] = useState<number | null>(null);
   const [userCoins, setUserCoins] = useState<number>(0);
+  const [syncing, setSyncing] = useState(false);
+
   return (
     <MainContext.Provider
       value={{
@@ -47,6 +53,8 @@ export function MainContextProvider({ children }: PropsWithChildren) {
         setMinePower,
         setUserCoins,
         userCoins,
+        syncing,
+        setSyncing,
       }}>
       {children}
     </MainContext.Provider>

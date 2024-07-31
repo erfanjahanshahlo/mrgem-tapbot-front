@@ -6,6 +6,7 @@ import { useMainContext } from "@/providers/MainContext";
 import { useEffect } from "react";
 import { formatNumber } from "@/utils";
 import { Link } from "@tanstack/react-router";
+import { useTelegram } from "@/features/TelegramProvider";
 // import { useDatas } from "@/hooks";
 
 type Props = {};
@@ -19,6 +20,7 @@ export const POWER_VALIDITY_PERIOD = 30 * 60 * 1000; // 30 minutes in millisecon
 
 const MineDetail = ({}: Props) => {
   const { data, coins, minePower, setMinePower } = useMainContext();
+  const { webApp } = useTelegram();
   const currentLevel =
     data?.data.levels.find(
       (level: any) => level.id === data.user.current_level
@@ -28,39 +30,10 @@ const MineDetail = ({}: Props) => {
   //   (level: any) => level.id === data?.user.current_level
   // );
   useEffect(() => {
-    // Load power from localStorage or backend when component mounts
     if (data === null) return;
     loadPower();
-
-    const powerInterval = setInterval(() => {
-      if (minePower === null) return;
-      if (minePower >= currentLevel.earn_power) return;
-      setMinePower((prev) => {
-        if (prev === null) {
-          return 0;
-        } else {
-          return Math.min(
-            currentLevel.earn_power,
-            prev +
-              Math.floor(
-                currentLevel.earn_power / data.data.earn_power_fullrestore
-              )
-          );
-        }
-      });
-    }, 1000);
-
-    return () => clearInterval(powerInterval);
   }, [data]);
-  useEffect(() => {
-    if (!data || minePower === null) return;
-    const updatedPowerData: PowerData = {
-      value: minePower,
-      timestamp: Date.now(),
-    };
 
-    localStorage.setItem(POWER_STORAGE_KEY, JSON.stringify(updatedPowerData));
-  }, [minePower, data]);
   const loadPower = async () => {
     const storedPower = localStorage.getItem(POWER_STORAGE_KEY);
 
@@ -68,13 +41,27 @@ const MineDetail = ({}: Props) => {
       const parsedPower: PowerData = JSON.parse(storedPower);
 
       if (isValidPower(parsedPower)) {
-        setMinePower(parsedPower.value);
+        const currentLevel = data?.data.levels.find(
+          (level: any) => level.id === data.user.current_level
+        );
+
+        if (currentLevel) {
+          const secondsPassed = (Date.now() - parsedPower.timestamp) / 1000;
+          const powerGained =
+            (data?.data.earn_power_fullrestore / currentLevel.earn_power) *
+            secondsPassed;
+          const newPower = Math.min(
+            parsedPower.value + powerGained,
+            currentLevel.earn_power
+          );
+
+          setMinePower(newPower);
+          updateStoredPower(newPower);
+        }
       } else {
-        // If stored power is invalid, fetch from backend
         await fetchPowerFromBackend();
       }
     } else {
-      // If no stored power, fetch from backend
       await fetchPowerFromBackend();
     }
   };
@@ -85,16 +72,54 @@ const MineDetail = ({}: Props) => {
   };
 
   const fetchPowerFromBackend = async () => {
-    const powerValue = currentLevel?.earn_power;
-
-    const newPowerData: PowerData = {
-      value: powerValue,
-      timestamp: Date.now(),
-    };
-
-    localStorage.setItem(POWER_STORAGE_KEY, JSON.stringify(newPowerData));
+    const powerValue = currentLevel?.earn_power || 0;
+    updateStoredPower(powerValue);
     setMinePower(powerValue);
   };
+
+  const updateStoredPower = (value: number) => {
+    const newPowerData: PowerData = {
+      value: value,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(POWER_STORAGE_KEY, JSON.stringify(newPowerData));
+  };
+
+  useEffect(() => {
+    if (!data) return;
+
+    const currentLevel = data.data.levels.find(
+      (level: any) => level.id === data.user.current_level
+    );
+
+    if (!currentLevel) {
+      console.error("Current level not found");
+      return;
+    }
+
+    const updatePower = () => {
+      setMinePower((prevPower) => {
+        if (!prevPower) return 0;
+        if (prevPower >= currentLevel.earn_power) {
+          return prevPower;
+        }
+
+        const newPower = Math.min(
+          prevPower +
+            currentLevel.earn_power / data.data.earn_power_fullrestore,
+          currentLevel.earn_power
+        );
+
+        updateStoredPower(newPower);
+
+        return newPower;
+      });
+    };
+
+    const powerInterval = setInterval(updatePower, 1000);
+
+    return () => clearInterval(powerInterval);
+  }, [data, webApp]);
 
   return (
     <div className="text-white space-y-4 w-full mx-auto">
@@ -110,7 +135,7 @@ const MineDetail = ({}: Props) => {
           <div className="size-14 bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
             <img src={Electric} className="size-10" alt="" />
           </div>
-          {`${formatNumber(minePower || 0)}/${formatNumber(currentLevel?.earn_power)}`}
+          {`${formatNumber(Math.floor(minePower || 0))}/${formatNumber(currentLevel?.earn_power)}`}
         </div>
         <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold flex-1">
           <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">

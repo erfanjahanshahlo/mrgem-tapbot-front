@@ -2,7 +2,6 @@ import { formatNumber } from "@/utils";
 import {
   Button,
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -12,7 +11,13 @@ import {
 } from "../ui";
 import Coin from "/G-coin.png";
 import { ChevronRight } from "lucide-react";
-
+import { useState } from "react";
+import axios from "axios";
+import { urls } from "@/constants/urls";
+import { useTelegram } from "@/features/TelegramProvider";
+import { useMainContext } from "@/providers/MainContext";
+import Checked from "/checked.png";
+import { useDatas } from "@/hooks";
 type Props = {
   action_link: string;
   action_text: string;
@@ -23,7 +28,7 @@ type Props = {
   icon: string;
   id: string;
   name: string;
-  isCompleted?: boolean;
+  action_is_force?: boolean;
 };
 
 const TaskDrawer = ({
@@ -36,14 +41,53 @@ const TaskDrawer = ({
   heading,
   icon,
   name,
-  isCompleted,
+  action_is_force,
 }: Props) => {
-  console.log(id);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [isForce, setIsForce] = useState(
+    action_is_force ? action_is_force : false
+  );
+  const { data: mainData } = useMainContext();
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const { webApp } = useTelegram();
+  // const { setCoins } = useMainContext();
+  const isCompleted = mainData?.user.completed_tasks.includes(id);
+  const { refetch } = useDatas();
+  const handleTaskCheck = async () => {
+    setIsSubmiting(true);
+    const { data, status } = await axios.post(
+      urls.submitTask,
+      {
+        id,
+      },
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "X-INITDATA": webApp?.initData,
+        },
+      }
+    );
+    if (status >= 400 && status < 500) {
+      // Handle error
+      webApp?.showAlert("An error occurred, please try again later");
+      setIsSubmiting(false);
+      setIsOpen(false);
+      return;
+    }
+    if (!data.success) {
+      webApp?.showAlert(data.msg);
+    } else {
+      // setCoins((prev) => prev + coin);
+      refetch();
+      webApp?.showAlert(`You have earned ${coin} coins`);
+    }
+    setIsSubmiting(false);
+    setIsOpen(false);
+  };
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <div className="flex justify-between items-center p-2  bg-card border border-cardBorder backdrop-blur-3xl rounded-2xl gap-2 transition-colors duration-500">
+        <div className="flex w-full justify-between items-center p-2  bg-card border border-cardBorder rounded-2xl gap-2 transition-colors duration-500">
           <div className="flex justify-center items-start gap-3">
             <img src={icon} className="size-12 rounded-md" />
             <div className="text-sm flex flex-col justify-start items-start ">
@@ -56,7 +100,7 @@ const TaskDrawer = ({
             </div>
           </div>
           {isCompleted ? (
-            <span className="text-green-500">Completed</span>
+            <img src={Checked} className="size-7 rounded-full" alt="" />
           ) : (
             <ChevronRight className="size-7" />
           )}
@@ -64,7 +108,6 @@ const TaskDrawer = ({
       </DrawerTrigger>
       <DrawerContent>
         <img src={icon} alt="" className="size-28 mx-auto mt-5" />
-
         <DrawerHeader>
           <DrawerTitle className="text-3xl">{heading}</DrawerTitle>
           <DrawerDescription className="text-white">
@@ -73,8 +116,14 @@ const TaskDrawer = ({
           {action_text && (
             <Button
               className="w-fit mx-auto rounded-xl px-10 my-5 text-base font-medium"
-              asChild>
-              <a href={action_link}>{action_text}</a>
+              onClick={() => {
+                setIsForce(false);
+                if (action_link.includes("://t.me")) {
+                  webApp?.openTelegramLink(action_link);
+                }
+                webApp?.openLink(action_link);
+              }}>
+              {action_text}
             </Button>
           )}
           <div className="flex justify-center items-center">
@@ -85,12 +134,16 @@ const TaskDrawer = ({
             </span>
           </div>
         </DrawerHeader>
-
-        <DrawerFooter>
-          <DrawerClose className="w-full">
-            <Button className="w-full h-20 rounded-xl text-2xl">Check</Button>
-          </DrawerClose>
-        </DrawerFooter>
+        {!isCompleted && (
+          <DrawerFooter>
+            <Button
+              disabled={isForce || isSubmiting || isCompleted}
+              onClick={handleTaskCheck}
+              className="w-full h-14 text-white/90 rounded-xl font-semibold text-2xl">
+              Check
+            </Button>
+          </DrawerFooter>
+        )}
       </DrawerContent>
     </Drawer>
   );

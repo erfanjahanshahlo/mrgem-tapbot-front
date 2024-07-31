@@ -63,5 +63,6 @@ export interface IWebApp {
     close: () => void;
     disableVerticalSwipes: () => void;
     enableVerticalSwipes: () => void;
+    openLink: (url: string,) => void;
 }
 

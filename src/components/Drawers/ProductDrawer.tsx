@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Drawer,
@@ -9,35 +9,72 @@ import {
 } from "../ui";
 // import { UsdCoin } from "iconsax-react";
 import ClashOfClansBanner from "/shopProduct.png";
-import { UserCircle2Icon, UserIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useSyncCoins } from "@/hooks/useSyncCoins";
+import axios from "axios";
+import { urls } from "@/constants/urls";
+import { useTelegram } from "@/features/TelegramProvider";
+import { useDatas } from "@/hooks";
+import { delay } from "@/utils";
 
-type Props = {};
-
-const ProductDrawer = ({}: Props) => {
+type Props = {
+  formFields: any;
+  productId: string;
+};
+type FormData = {
+  [key: string]: string;
+};
+const ProductDrawer = ({ formFields, productId }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  // const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
-  // Define the starting time in seconds (e.g., 1 minute = 60 seconds)
-  const [timeLeft, setTimeLeft] = useState<number>(60);
-  // const calCulateTimeLeft = (time: number) => {
-  //   if (time <= 0) return "0:00";
-  //   const minutes = Math.floor(time / 60);
-  //   const seconds = time % 60;
-  //   return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  // };
-  useEffect(() => {
-    const timeInterval = setInterval(() => {
-      if (timeLeft <= 0) {
-        clearInterval(timeInterval);
-        return;
-      }
-      setTimeLeft((prev) => --prev);
-    }, 1000);
+  const [formData, setFormData] = useState<FormData>({});
+  const { syncCoins } = useSyncCoins();
+  const { refetch } = useDatas();
+  const { webApp } = useTelegram();
+  const handleInputChange = (fieldId: string, value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldId]: value,
+    }));
+  };
 
-    return () => {
-      clearInterval(timeInterval);
-    };
-  }, []);
-  // const [isFocused, setIsFocused] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const coins = localStorage.getItem("coins");
+    syncCoins(coins ? coins : 0);
+    await delay(1000);
+    console.log("Submitting data:", formData);
+    const { data, status } = await axios.post(
+      urls.purchase,
+      {
+        id: productId,
+        params: formData,
+      },
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "X-INITDATA": webApp?.initData,
+        },
+      }
+    );
+    if (data.success) {
+      setIsDialogOpen(false);
+      webApp?.showAlert(data.msg);
+      refetch();
+    } else {
+      webApp?.showAlert(data.msg);
+    }
+    if (status >= 400 && status < 500) {
+      webApp?.showAlert("An error occurred, please try again later");
+      return;
+    }
+  };
+
   return (
     <Drawer
       open={isDialogOpen}
@@ -67,39 +104,41 @@ const ProductDrawer = ({}: Props) => {
             className="w-full h-auto aspect-video rounded-lg"
             alt=""
           />
-          <div className="flex flex-col gap-1">
-            <span className="text-sm">Game ID :</span>
-            <label htmlFor="gameId" className="relative">
-              <input
-                // onBlur={() => setIsFocused(false)}
-                // onFocus={() => setIsFocused(true)}
-                type="text"
-                name=""
-                id=""
-                className="w-full h-11 bg-[#10151F] rounded-lg border border-[#C14DD4] !outline-none pl-10"
-              />
-              <UserCircle2Icon className="absolute top-1/2 left-2 -translate-y-1/2" />
-            </label>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm">Game Name :</span>
-            <label htmlFor="gameName" className="relative">
-              <input
-                // onBlur={() => setIsFocused(false)}
-                // onFocus={() => setIsFocused(true)}
-                type="text"
-                name=""
-                id=""
-                className="w-full h-11 bg-[#10151F] rounded-lg border border-[#C14DD4] !outline-none pl-10"
-              />
-              <UserIcon className="absolute top-1/2 left-2 -translate-y-1/2" />
-            </label>
-            <Button className="w-full mt-5 px-5 mb-6" disabled>
-              Purchase
-            </Button>
-          </div>
+          {formFields.map((field: any, i: number) => (
+            <div className="flex flex-col gap-1" key={`form field--${i}`}>
+              <span className="text-sm capitalize">{field.title} :</span>
+              {field.type === "select" ? (
+                <Select
+                  onValueChange={(value) => handleInputChange(field.id, value)}>
+                  <SelectTrigger className="w-full h-11 bg-[#121212] border-black-60 !outline-none">
+                    <SelectValue placeholder="" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#121212]">
+                    {Object.keys(field.options).map(
+                      (option: any, i: number) => (
+                        <SelectItem key={`option--${i}`} value={option}>
+                          {field.options[option]}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <input
+                  type={field.type}
+                  value={formData[field.id] || ""}
+                  onChange={(e) => handleInputChange(field.id, e.target.value)}
+                  className="w-full h-11 rounded-lg border bg-[#121212] border-black-60 !outline-none px-3"
+                />
+              )}
+            </div>
+          ))}
         </div>
-        <div className="w-full "></div>
+        <div className="w-full px-5 mt-5 mb-6">
+          <Button className="w-full px-5" onClick={handleSubmit}>
+            Purchase
+          </Button>
+        </div>
       </DrawerContent>
     </Drawer>
   );

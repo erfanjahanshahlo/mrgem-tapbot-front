@@ -19,10 +19,10 @@ function Root() {
     const coins = localStorage.getItem("coins");
     if (coins) {
       syncCoins(+coins);
-      // localStorage.removeItem("coins");
     }
   }, [webApp]);
   const { isLoading } = useDatas();
+  // const isLoading = false;
   if (isLoading) {
     return (
       <div className="flex flex-col w-full h-full justify-end items-center p-6 relative bg-loading bg-center bg-cover">
@@ -61,20 +61,19 @@ function Root() {
     );
   }
 
-  // if (webApp?.platform !== "android" && webApp?.platform !== "ios") {
-  //   return (
-  //     <div className="w-full h-full flex justify-center items-center px-5">
-  //       <h1 className="font-bold text-3xl text-center">
-  //         Please use the app on your mobile devices
-  //       </h1>
-  //     </div>
-  //   );
-  // }
+  if (webApp?.platform !== "android" && webApp?.platform !== "ios") {
+    return (
+      <div className="w-full h-full flex justify-center items-center px-5">
+        <h1 className="font-bold text-3xl text-center">
+          Please use the app on your mobile devices
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <>
       <Navbar />
-      {/* {localStorage.getItem("coins")} */}
       <Layout>
         <Outlet />
       </Layout>

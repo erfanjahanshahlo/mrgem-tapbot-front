@@ -5,12 +5,14 @@ import { delay } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
+// import { useSyncCoins } from "./useSyncCoins";
 
 export const useDatas = () => {
     const { setData, setCoins, setUserCoins } = useMainContext();
     const { webApp } = useTelegram();
     const [isLoading, setIsLoading] = useState(true);
     const startAppParam = webApp?.initDataUnsafe?.start_param;
+    // const { syncCoins } = useSyncCoins()
     const { data, isError, refetch } = useQuery({
         queryKey: ["getConf"],
         queryFn: async () => {
@@ -25,7 +27,6 @@ export const useDatas = () => {
                     },
                 }
             );
-            console.log(data);
             return data;
         },
         retry: 3,
@@ -54,6 +55,7 @@ export const useDatas = () => {
             // })
         }
     }, [data, isError]);
+
 
     return { isLoading, data, refetch };
 };

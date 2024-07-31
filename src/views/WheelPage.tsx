@@ -1,5 +1,5 @@
 // import { Wheel } from "react-custom-roulette";
-import ComingSoon from "/comingsoon.png";
+import ComingSoon from "/work-in-progress.png";
 type Props = {};
 
 const WheelPage = ({}: Props) => {
@@ -33,13 +33,12 @@ const WheelPage = ({}: Props) => {
         data={data}
         onStopSpinning={() => {
           setMustSpin(false);
-          console.log(data[prizeNumber]);
         }}
         backgroundColors={["#FF204B", "#2196F3", "#FD881F"]}
       />
       <button onClick={handleSpinClick}>SPIN</button> */}
-      <img src={ComingSoon} className="w-10/12" />
-      <h1 className="text-4xl font-bold">Coming Soon...</h1>
+      <img src={ComingSoon} className="w-3/5" />
+      {/* <h1 className="text-4xl font-bold">Coming Soon...</h1> */}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const TaskPage = ({}: Props) => {
       {data?.success &&
         data.data.tasks.map((task: any, i: number) => (
           <div
-            className="flex flex-col gap-1 w-full "
+            className="flex flex-col justify-center items-center gap-1 w-full "
             key={`task--${i}--${task}`}>
             <h3 className="font-semibold capitalize mb-4">{task.title}</h3>
             {task.tasks.map((task: any, i: number) => (

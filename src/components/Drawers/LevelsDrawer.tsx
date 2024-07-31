@@ -1,4 +1,6 @@
 import Coin from "/G-coin.png";
+import Electric from "/electric.png";
+import CoinPlus from "/coinPlus.png";
 
 import {
   Drawer,
@@ -11,16 +13,13 @@ import {
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { FingerTapIcon } from "@/assets/icons";
 import { useMainContext } from "@/providers/MainContext";
-import { Flash } from "iconsax-react";
-import { formatNumber, formatNumberToM } from "@/utils";
-import { Infinity } from "lucide-react";
+import { formatNumber } from "@/utils";
+
 type Props = {};
 
 const LevelsDrawer = ({}: Props) => {
   const { data, coins } = useMainContext();
-
   const [snapPoint, setSnapPoint] = useState<number | string | null>(0.9);
   const currentLevel =
     data?.data.levels.find(
@@ -31,24 +30,26 @@ const LevelsDrawer = ({}: Props) => {
     (level: any) => level.id === data?.user.current_level
   );
 
+  const exitPoint = data?.data.levels[indexOfCurrentLevel + 1]?.entry;
   const [currentSlide, setCurrentSlide] = useState<number>(indexOfCurrentLevel);
-  // const charactersSrc = [
-  //   "/LevelCharacters/mrgem-bronze-character-transparent.webp",
-  //   "/LevelCharacters/mrgem-diamond-character-transparent.webp",
-  //   "/LevelCharacters/mrgem-gold-character-transparent.webp",
-  //   "/LevelCharacters/mrgem-iron-character-transparent.webp",
-  //   "/LevelCharacters/mrgem-platinum-character-transparent.webp",
-  //   "/LevelCharacters/mrgem-sliver-character-transparent.webp",
-  // ];
-  // Assuming entryPoint and exitPoint are available
-  const entryPoint = currentLevel?.entry; // Example: 0 for the start of the level
-  const exitPoint = data?.data.levels[indexOfCurrentLevel + 1]?.entry; // Example: 10000 for the end of the level
-
-  // Ensure these values are numbers and not undefined
+  const entryPoint = currentLevel?.entry;
   const totalRange = exitPoint - entryPoint;
   const currentProgress = coins - entryPoint;
-  const progressPercentage = (currentProgress / totalRange) * 100;
-
+  const progressPercentage =
+    (currentProgress / totalRange) * 100 > 100
+      ? 100
+      : ((currentProgress / totalRange) * 100).toFixed(0);
+  // useEffect(() => {
+  //   if (coins >= exitPoint) {
+  //     if (isLoading) return;
+  //     refetch();
+  //     webApp?.showPopup({
+  //       title: "Congratulations",
+  //       message: "You have completed this level",
+  //       buttons: [{ type: "ok", text: "Ok" }],
+  //     });
+  //   }
+  // }, [coins, isLoading]);
   return (
     <Drawer
       snapPoints={[0.9]}
@@ -57,53 +58,32 @@ const LevelsDrawer = ({}: Props) => {
       modal={false}
       setActiveSnapPoint={setSnapPoint}>
       <DrawerTrigger asChild>
-        <div className="w-full h-fit p-2   bg-card border border-cardBorder backdrop-blur-3xl text-white  rounded-xl  space-y-0.5">
+        <div className="w-full h-fit p-2 text-white  rounded-xl  space-y-0.5">
           <div className="w-full flex  justify-between items-center">
             <div className="flex justify-between items-center gap-1 w-full">
-              <h2 className="text-base font-semibold">{currentLevel?.name}</h2>
-              <div className="text-sm leading-3">
-                <p>{`${indexOfCurrentLevel + 1}/${data?.data?.levels.length}`}</p>
+              <div className="flex items-center justify-center gap-1">
+                <h2 className="text-base font-semibold">
+                  {currentLevel?.name}
+                </h2>
+                <div className="text-sm leading-3 text-white/80">
+                  <p>{`level  ${indexOfCurrentLevel + 1}/${data?.data?.levels.length}`}</p>
+                </div>
               </div>
-            </div>{" "}
+              <span className="text-sm">
+                {indexOfCurrentLevel + 1 === data?.data?.levels.length
+                  ? "100%"
+                  : `${progressPercentage}%`}
+              </span>
+            </div>
           </div>
           <div className="relative h-8 w-full">
             <Progress
               value={
                 indexOfCurrentLevel + 1 === data?.data?.levels.length
                   ? 100
-                  : progressPercentage
-              }
-              indicatorClassName={
-                indexOfCurrentLevel + 1 === data?.data?.levels.length
-                  ? "bg-green-50"
-                  : ""
+                  : +progressPercentage
               }
             />
-            <span className="w-full flex justify-end items-end">
-              {indexOfCurrentLevel + 1 === data?.data?.levels.length ? (
-                <Infinity />
-              ) : (
-                `${formatNumberToM(data?.data.levels[indexOfCurrentLevel + 1]?.entry)}`
-              )}
-            </span>
-            <span
-              className="absolute bottom-0"
-              style={{
-                left: `${
-                  indexOfCurrentLevel + 1 === data?.data?.levels.length ||
-                  progressPercentage < 6
-                    ? 0
-                    : progressPercentage
-                }%`,
-                transform:
-                  indexOfCurrentLevel + 1 === data?.data?.levels.length ||
-                  coins == data?.data.levels[indexOfCurrentLevel].entry ||
-                  progressPercentage < 6
-                    ? ""
-                    : "translateX(-50%)",
-              }}>
-              {formatNumberToM(Math.floor(coins))}
-            </span>
           </div>
         </div>
       </DrawerTrigger>
@@ -148,17 +128,24 @@ const LevelsDrawer = ({}: Props) => {
                 {formatNumber(data?.data?.levels[currentSlide]?.entry)}
               </span>
             </div>
-            <div className="flex justify-center w-fit mx-auto h-8 items-center gap-2 text-white">
-              <span className="flex justify-center items-center gap-1 text-base">
-                <Flash />
-                {formatNumber(data?.data?.levels[currentSlide]?.earn_power)}
-              </span>
-              <span className="h-8 w-0.5 bg-gray-90"></span>
-
-              <span className="flex justify-center items-center gap-1 text-base">
-                <FingerTapIcon className="fill-white stroke-white size-8 " />
-                {formatNumber(data?.data?.levels[currentSlide]?.earn_per_click)}
-              </span>
+            <div className="flex justify-center w-full h-fit mt-6 items-center gap-6 text-white">
+              <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold ">
+                <div className="size-14 bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
+                  <img src={Electric} className="size-10" alt="" />
+                </div>
+                {formatNumber(data?.data?.levels[currentSlide]?.earn_power)}{" "}
+              </div>
+              <div className="flex justify-center items-center flex-col gap-1 text-sm font-semibold ">
+                <div className="size-14 relative bg-card border border-cardBorder rounded-[35%] flex justify-center items-center">
+                  <img src={CoinPlus} className="size-10" alt="" />
+                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex justify-center items-center size-5 rounded-full bg-green-50">
+                    {formatNumber(
+                      data?.data?.levels[currentSlide]?.earn_per_click
+                    )}
+                  </div>
+                </div>
+                Earn
+              </div>
             </div>
           </div>
         </div>

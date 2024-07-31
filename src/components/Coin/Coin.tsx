@@ -28,6 +28,7 @@ const Coin = ({}: Props) => {
   const [isTimeout, setIsTimeout] = useState(false);
   const controls = useAnimation();
   const animate = async (event: any) => {
+    if (minePower && minePower - currentLevel?.earn_per_click <= 0) return;
     if (minePower !== null) {
       const newPower = minePower - currentLevel?.earn_per_click;
       setMinePower(newPower);
@@ -75,7 +76,6 @@ const Coin = ({}: Props) => {
       y: round(center.y / 16),
       z: round(distance(percent.x, percent.y, 50, 50) / 20),
     });
-    console.log(event);
 
     setSpans((prevSpans) => [
       ...prevSpans,
@@ -125,18 +125,17 @@ const Coin = ({}: Props) => {
         perspective: "320px",
       }}
       className="w-5/6 min-w-[66%] h-auto aspect-square mx-auto my-5 relative max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)]  shadow-black-100 rounded-full   ">
-      <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-tl from-[#3A4466] to-[hsl(20, 14%, 20%)] rounded-full p-4">
+      <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-tl from-primary to-card rounded-full p-4">
         {spans.map((span, id) => (
           <AnimatedSpan {...span} key={`animated span num--${id}`} />
         ))}
-        {localStorage.getItem("coins")}
         <img
           src={data?.data.levels[indexOfCurrentLevel].character}
           alt=""
           className="size-full object-cover object-center aspect-square "
         />
       </div>
-      <div className="w-[calc(100%+25px)] aspect-square rounded-full z-10 absolute bg-gradient-to-b from-[#5A7BA6] to-[#2A3040] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 " />
+      <div className="w-[calc(100%+25px)] aspect-square rounded-full z-10 absolute bg-gradient-to-b from-[#334766] to-[#05070a] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 " />
     </motion.div>
   );
 };

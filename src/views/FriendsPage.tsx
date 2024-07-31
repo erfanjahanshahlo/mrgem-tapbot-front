@@ -2,20 +2,28 @@ import { Copy, CopyCheck, Dot, RefreshCcw, UserPlus2 } from "lucide-react";
 // import GiftIcon from "/clashOfClansIcon.webp";
 import GiftIcon from "/gift.png";
 import GiftPremuimIcon from "/giftPremuim.png";
-import { useState } from "react";
-import { cn, formatNumber } from "@/utils";
+import { cn, delay, formatNumber } from "@/utils";
 import { Button } from "@/components/ui";
 import { useTelegram } from "@/features/TelegramProvider";
 type Props = {};
 import Coin from "/G-coin.png";
 import { useMainContext } from "@/providers/MainContext";
-import { useCopy } from "@/hooks";
+import { useCopy, useDatas } from "@/hooks";
+import { useState } from "react";
 
 const FriendsPage = ({}: Props) => {
   const { data } = useMainContext();
-  const [isSpining, setIsSpining] = useState(false);
   const { webApp } = useTelegram();
   const { onCopy, isCopied } = useCopy();
+  const { refetch } = useDatas();
+  const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
+  const handleRefetchFriends = async () => {
+    setIsSubmiting(true);
+    refetch();
+    await delay(1000);
+    setIsSubmiting(false);
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-between items-center gap-5 overflow-hidden overflow-y-auto pb-3">
       <div className="flex flex-col items-center gap-5">
@@ -65,8 +73,8 @@ const FriendsPage = ({}: Props) => {
           <div className="flex justify-between items-center">
             <h4 className="col-span-3 text-sm">List of your friend</h4>
             <RefreshCcw
-              onClick={() => setIsSpining((prev) => !prev)}
-              className={cn(isSpining ? "animate-spin" : "")}
+              onClick={handleRefetchFriends}
+              className={cn(isSubmiting ? "animate-spin" : "")}
             />
           </div>
           {data?.user.invite_list.length === 0 ? (
@@ -78,12 +86,23 @@ const FriendsPage = ({}: Props) => {
               {data?.user.invite_list.map((item: any, i: number) => (
                 <div
                   key={`invited user--${i}`}
-                  className="col-span-full text-sm bg-card border border-cardBorder backdrop-blur-3xl p-4 w-full flex justify-between  items-center rounded-xl text-white/40">
-                  {`${item.first_name} ${item.last_name}`}
+                  className="col-span-full text-sm bg-card border border-cardBorder  p-4 w-full flex justify-between  items-center rounded-xl ">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-white/80 font-semibold">{`${item.first_name} ${item.last_name}`}</span>
+                    <span className="text-white/40">
+                      {
+                        data?.data.levels.find(
+                          (l: any) => l.id === item.level_id
+                        ).name
+                      }
+                    </span>
+                  </div>
                   <span className="flex justify-center items-center gap-2">
                     <img src={Coin} className="size-5 inline" alt="" />
                     <span className="font-bold ml-0.5 text-secondary-100 text-sm">
-                      {formatNumber(data?.data.invite_gift_premium)}
+                      {item.is_premium
+                        ? formatNumber(data?.data.invite_gift_premium)
+                        : formatNumber(data?.data.invite_gift_regular)}
                     </span>
                   </span>
                 </div>
@@ -92,7 +111,7 @@ const FriendsPage = ({}: Props) => {
           )}
         </div>
       </div>
-      <div className="w-full h-fit grid grid-cols-6 gap-1">
+      <div className="w-full h-fit grid grid-cols-6 gap-1 sticky bottom-0">
         <Button
           onClick={() =>
             webApp?.openTelegramLink(
