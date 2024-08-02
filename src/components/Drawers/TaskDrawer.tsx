@@ -120,8 +120,9 @@ const TaskDrawer = ({
                 setIsForce(false);
                 if (action_link.includes("://t.me")) {
                   webApp?.openTelegramLink(action_link);
+                } else {
+                  webApp?.openLink(action_link);
                 }
-                webApp?.openLink(action_link);
               }}>
               {action_text}
             </Button>

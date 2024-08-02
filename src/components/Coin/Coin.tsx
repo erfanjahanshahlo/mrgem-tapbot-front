@@ -108,11 +108,15 @@ const Coin = ({}: Props) => {
       setIsTimeout(false);
     }, 10000);
   }, [spans]);
-
+  useEffect(() => {
+    () => {
+      const coins = localStorage.getItem("coins");
+      syncCoins(coins || 0);
+    };
+  }, []);
   return (
     <motion.div
       onTouchStart={animate}
-      // onClick={animate}
       onTouchEnd={stopAnimating}
       animate={{
         rotateY: rotations.x,
@@ -124,7 +128,7 @@ const Coin = ({}: Props) => {
         transformOrigin: "center",
         perspective: "320px",
       }}
-      className="w-5/6 min-w-[66%] h-auto aspect-square mx-auto my-5 relative max-w-sm shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)]  shadow-black-100 rounded-full   ">
+      className="w-2/3 min-w-[66%] h-auto aspect-square mx-auto my-5 relative max-w-[70%] shadow-[inset_2px_2px_17px_0_var(--tw-shadow-color)]  shadow-black-100 rounded-full   ">
       <div className="w-full h-full aspect-square z-50 sticky bg-gradient-to-tl from-primary to-card rounded-full p-4">
         {spans.map((span, id) => (
           <AnimatedSpan {...span} key={`animated span num--${id}`} />

@@ -8,7 +8,6 @@ import {
   DrawerTrigger,
 } from "../ui";
 // import { UsdCoin } from "iconsax-react";
-import ClashOfClansBanner from "/shopProduct.png";
 import {
   Select,
   SelectContent,
@@ -22,17 +21,20 @@ import { urls } from "@/constants/urls";
 import { useTelegram } from "@/features/TelegramProvider";
 import { useDatas } from "@/hooks";
 import { delay } from "@/utils";
+import { Loader } from "lucide-react";
 
 type Props = {
   formFields: any;
   productId: string;
+  image: string;
 };
 type FormData = {
   [key: string]: string;
 };
-const ProductDrawer = ({ formFields, productId }: Props) => {
+const ProductDrawer = ({ formFields, productId, image }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { syncCoins } = useSyncCoins();
   const { refetch } = useDatas();
   const { webApp } = useTelegram();
@@ -45,6 +47,7 @@ const ProductDrawer = ({ formFields, productId }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const coins = localStorage.getItem("coins");
     syncCoins(coins ? coins : 0);
     await delay(1000);
@@ -62,6 +65,7 @@ const ProductDrawer = ({ formFields, productId }: Props) => {
         },
       }
     );
+    setIsSubmitting(false);
     if (data.success) {
       setIsDialogOpen(false);
       webApp?.showAlert(data.msg);
@@ -99,11 +103,7 @@ const ProductDrawer = ({ formFields, productId }: Props) => {
           </DrawerTitle>
         </DrawerHeader>
         <div className="w-full overflow-auto px-5 space-y-5">
-          <img
-            src={ClashOfClansBanner}
-            className="w-full h-auto aspect-video rounded-lg"
-            alt=""
-          />
+          <img src={image} className="rounded-lg size-28 mx-auto" alt="" />
           {formFields.map((field: any, i: number) => (
             <div className="flex flex-col gap-1" key={`form field--${i}`}>
               <span className="text-sm capitalize">{field.title} :</span>
@@ -135,8 +135,15 @@ const ProductDrawer = ({ formFields, productId }: Props) => {
           ))}
         </div>
         <div className="w-full px-5 mt-5 mb-6">
-          <Button className="w-full px-5" onClick={handleSubmit}>
-            Purchase
+          <Button
+            disabled={isSubmitting}
+            className="w-full px-5"
+            onClick={handleSubmit}>
+            {isSubmitting ? (
+              <Loader size={20} className={`animate-spin text-white`} />
+            ) : (
+              "Purchase"
+            )}
           </Button>
         </div>
       </DrawerContent>

@@ -39,7 +39,16 @@ const ProductBox = ({
       {isLocked && (
         <div className="absolute inset-0 w-full h-full bg-card/80 flex justify-center items-center flex-col gap-2 text-white rounded-xl pointer-events-none z-20">
           <LockIcon className="size-10" />
-          <span className="font-semibold">{requireValue}</span>
+          <span className="font-semibold">
+            {requireValue
+              ? requireValue
+              : coins < price && (
+                  <span className="flex justify-center items-center gap-1">
+                    <img src={Coin} className="h-8 aspect-square" />
+                    {formatNumber(price)}
+                  </span>
+                )}
+          </span>
         </div>
       )}
       <img
@@ -60,7 +69,11 @@ const ProductBox = ({
             <img src={Coin} className="h-full aspect-square" />
             {formatNumber(price)}
           </Button>
-          <ProductDrawer formFields={formFields} productId={productId} />
+          <ProductDrawer
+            image={image}
+            formFields={formFields}
+            productId={productId}
+          />
         </div>
       </div>
     </div>

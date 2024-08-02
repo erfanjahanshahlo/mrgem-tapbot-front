@@ -22,7 +22,6 @@ function Root() {
     }
   }, [webApp]);
   const { isLoading } = useDatas();
-  // const isLoading = false;
   if (isLoading) {
     return (
       <div className="flex flex-col w-full h-full justify-end items-center p-6 relative bg-loading bg-center bg-cover">
@@ -70,7 +69,6 @@ function Root() {
       </div>
     );
   }
-
   return (
     <>
       <Navbar />
