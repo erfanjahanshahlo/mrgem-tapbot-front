@@ -32,7 +32,6 @@ if (!rootElement.innerHTML) {
           <MainContextProvider>
             <RouterProvider router={router} />
           </MainContextProvider>
-
           <ReactQueryDevtools initialIsOpen />
         </QueryClientProvider>
       </TelegramProvider>

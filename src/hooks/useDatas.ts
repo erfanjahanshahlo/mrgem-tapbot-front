@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 // import { useSyncCoins } from "./useSyncCoins";
 
 export const useDatas = () => {
-    const { setData, setCoins, setUserCoins } = useMainContext();
+    const { setData, setCoins, setUserCoins, coins } = useMainContext();
     const { webApp } = useTelegram();
     const [isLoading, setIsLoading] = useState(true);
     const startAppParam = webApp?.initDataUnsafe?.start_param;
@@ -40,7 +40,7 @@ export const useDatas = () => {
     useEffect(() => {
         if (data?.success) {
             setData(data);
-            setCoins(data?.user.coins);
+            setCoins(coins > 0 ? coins : data?.user.coins);
             setUserCoins(data?.user.coins);
             setIsLoading(false);
         } else if (isError) {

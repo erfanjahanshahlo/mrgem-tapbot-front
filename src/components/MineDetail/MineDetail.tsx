@@ -19,7 +19,7 @@ export const POWER_STORAGE_KEY = "userPower";
 export const POWER_VALIDITY_PERIOD = 30 * 60 * 1000; // 30 minutes in milliseconds
 
 const MineDetail = ({}: Props) => {
-  const { data, coins, minePower, setMinePower } = useMainContext();
+  const { data, minePower, setMinePower, coins } = useMainContext();
   const { webApp } = useTelegram();
   const currentLevel =
     data?.data.levels.find(
@@ -121,6 +121,7 @@ const MineDetail = ({}: Props) => {
     return () => clearInterval(powerInterval);
   }, [data, webApp]);
 
+  // const storedCoins = localStorage.getItem("coins") || 0;
   return (
     <div className="text-white space-y-4 w-full mx-auto">
       <div className="flex justify-center w-full items-center gap-2">

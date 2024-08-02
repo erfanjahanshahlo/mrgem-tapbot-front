@@ -8,6 +8,7 @@ type Props = {};
 const ShopView = ({}: Props) => {
   const { coins } = useMainContext();
   const { data } = useMainContext();
+
   return (
     <div className="w-full h-full space-y-4 pb-2 overflow-hidden overflow-y-auto">
       <span className="w-full gap-2 font-bold flex justify-center items-center text-white text-2xl">
